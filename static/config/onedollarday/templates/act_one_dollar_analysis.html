@@ -1,0 +1,64 @@
+<section class="content-header">
+    <h1>周二立减活动</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-gift"></i> Activities</li>
+        <li class="active">周二立减</li>
+    </ol>
+</section>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li ui-sref-active-eq="active">
+                        <a ui-sref="one_dollar_day_analysis">活动分析</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref=".one_dollar_day">活动配置</a>
+                    </li>
+                </ul>
+                <div class="tab-content" ui-view>
+                    <div class="box-heading">
+                        <div class="form-inline">
+                            <div class="form-group">
+                                <label class="control-label" for="citySelect">City</label>
+                                <select class="form-control" ng-model="search.city" id="citySelect" ng-change="doAnalysis()">
+                                    <option value="">All</option>
+                                    <option>Melbourne</option>
+                                    <option>Sydney</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="box box-success">
+                                    <div class="box-header with-border">活动商家数量统计</div>
+                                    <div class="box-body">
+                                        <div class="chart" echarts="merchantsAnalysis" style="height: 300px"
+                                             ng-class="{nodata:merchantsAnalysis.nodata}"></div>
+                                    </div>
+                                </div>
+                                <div class="box box-success">
+                                    <div class="box-header with-border">交易额和交易笔数统计</div>
+                                    <div class="box-body">
+                                        <div class="chart" echarts="totalAmountAnalysis" style="height: 300px"
+                                             ng-class="{nodata:totalAmountAnalysis.nodata}"></div>
+                                    </div>
+                                </div>
+                                <div class="box box-success">
+                                    <div class="box-header with-border">补贴金额统计</div>
+                                    <div class="box-body">
+                                        <div class="chart" echarts="subsidyAnalysis" style="height: 300px"
+                                             ng-class="{nodata:subsidyAnalysis.nodata}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div></div>

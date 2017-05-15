@@ -1,0 +1,189 @@
+<style>
+    .cen table {
+        text-align: center;
+    }
+
+    .cen table th {
+        text-align: center;
+    }
+</style>
+<div ui-view>
+    <section class="content-header">
+        <h1>Settlement logs</h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-list-alt"></i> Analysis
+            </li>
+            <li class="active">Settlement logs</li>
+        </ol>
+    </section>
+    <div class="content">
+        <div class="row margin-bottom">
+            <div class="col-sm-12">
+                <button class="btn btn-danger" type="button" ui-sref=".rate_warnings">
+                    <i class="fa fa-bell"></i> Rate Expire Warnings
+                </button>
+                <button class="btn btn-primary" type="button" ui-sref=".date_setting">
+                    <i class="fa fa-cog"></i> Settlement Date Config
+                </button>
+            </div>
+        </div>
+        <div class="box box-success">
+            <div class="box-header">Settlement Dates</div>
+            <div class="box-body">
+                <div royal-calendar month-change="loadMonthLog($month)">
+                    <a class="rc-full" style="font-size: 40px" ui-sref=".settlementDetail({date:(day|date:'yyyy-MM-dd')})"
+                       ng-if="settledDates.indexOf((day|date:'yyyy-MM-dd'))>=0">
+                        <i class="fa fa-check-circle text-green"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box-solid">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="form-horizontal">
+                                        <div class="form-group col-sm-12">
+                                            <div class="form-inline">
+                                                <label class="control-label col-sm-2" for="sub-merchant-search">Partner
+                                                    Code</label>
+                                                <div class="col-sm-10">
+                                                    <input type="text" class="form-control"
+                                                           id="sub-merchant-search"
+                                                           ng-model="params.clientMoniker">
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-xs-12 col-sm-12">
+                                            <label class="control-label col-xs-4 col-sm-2">Date Range</label>
+                                            <div class="col-sm-10">
+                                                <div class="form-control-static form-inline">
+                                                    <div style="display: inline-block">
+                                                        <input class="form-control" id="date-from-input"
+                                                               ng-model="params.begin"
+                                                               uib-datepicker-popup size="10" placeholder="From"
+                                                               is-open="dateBegin.open" ng-click="dateBegin.open=true"
+                                                               datepicker-options="{maxDate:params.end||today}">
+                                                    </div>
+                                                    ~
+                                                    <div style="display: inline-block">
+                                                        <input class="form-control" id="date-to-input"
+                                                               ng-model="params.end"
+                                                               uib-datepicker-popup size="10" placeholder="To"
+                                                               is-open="dateTo.open" ng-click="dateTo.open=true"
+                                                               datepicker-options="{minDate:params.begin,maxDate:today}">
+                                                    </div>
+
+                                                    <div class="btn-group">
+                                                        <a role="button" class="btn btn-default btn-sm"
+                                                           ng-click="chooseToday()">Today</a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a role="button" class="btn btn-default btn-sm"
+                                                           ng-click="chooseYesterday()">Yesterday</a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a role="button" class="btn btn-default btn-sm"
+                                                           ng-click="chooseLast7Days()">Last 7 Days</a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a role="button" class="btn btn-default btn-sm"
+                                                           ng-click="thisMonth()">This Month</a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a role="button" class="btn btn-default btn-sm"
+                                                           ng-click="lastMonth()">Last Month</a>
+                                                    </div>
+                                                    <div class="btn-group">
+                                                        <a role="button" class="btn btn-default btn-sm"
+                                                           ng-click="thisYear()">This Year</a>
+                                                    </div>
+                                                    <div uib-dropdown ng-if="orgs" class="btn-group">
+                                                        <button id="single-button" type="button" class="btn btn-default"
+                                                                uib-dropdown-toggle ng-disabled="disabled">
+                                                            {{showOrg}} <span class="caret"></span>
+                                                        </button>
+                                                        <ul class="dropdown-menu" uib-dropdown-menu
+                                                            aria-labelledby="single-button">
+                                                            <li><a ng-click="chooseOrg('all')">All</a></li>
+                                                            <li ng-repeat="org in orgs"><a ng-click="chooseOrg(org)">{{org.name}}</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <button class="btn btn-success" type="button"
+                                                            ng-click="loadClearingLogs()">
+                                                        <i class="fa fa-search"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <h3 class="box-title">
+                            <span ng-if="clearing_logs.length">Total | Clearing Amount: {{analysis.total|currency:'AUD '}},
+                                Transfer to Merchant: {{analysis.income|currency:'AUD '}}, Merchant Service Fee: {{analysis.fee|currency:'AUD '}}</span>
+                            </h3>
+                        </div>
+                        <div class="box-body">
+                            <div class="row cen col-sm-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>Partner Name</th>
+                                            <th>Total Amount</th>
+                                            <th>Transfer to Merchant</th>
+                                            <th>Merchant Service Fee</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="log in clearing_logs">
+                                            <td ng-bind="log.short_name"></td>
+                                            <td ng-bind="log.total|currency:'AUD '"></td>
+                                            <td ng-bind="log.income|currency:'AUD '"></td>
+                                            <td ng-bind="log.fee|currency:'AUD '"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box-footer" ng-if="clearing_logs.length">
+                            <uib-pagination class="pagination"
+                                            total-items="pagination.totalCount"
+                                            boundary-links="true"
+                                            ng-model="pagination.page"
+                                            items-per-page="pagination.limit"
+                                            max-size="10"
+                                            ng-change="loadClearingLogs()"
+                                            previous-text="&lsaquo;"
+                                            next-text="&rsaquo;"
+                                            first-text="&laquo;"
+                                            last-text="&raquo;"></uib-pagination>
+                            <div class="row">
+                                <div class="col-xs-12">Total Records:{{pagination.totalCount}};Total Pages:{{pagination.totalPages}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="box box-success">
+                        <div class="box-header with-border">清算金额趋势</div>
+                        <div class="box-body">
+                            <div class="chart" echarts="clearingHistory" style="height: 300px"
+                                 ng-class="{nodata:clearingHistory.nodata}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

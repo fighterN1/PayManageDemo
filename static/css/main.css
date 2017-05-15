@@ -1,0 +1,123 @@
+/***login***/
+
+@media (min-width: 768px) {
+
+    .login-box-right{
+        margin-right: 10%;
+    }
+
+    .login-page-bg {
+
+        width: 100%;
+        height: 100%;
+        background-color: #d2d6de;
+        background: url(../images/bg.jpg) ;
+        /*background: url(../images/logonbg.jpg) ;*/
+        position: relative;
+        background-size: 100% 100%;
+    }
+
+
+    .login-box-bg {
+        /*background-color: rgba(255,255,255,0.5);*/
+        box-shadow: 0px 2px 20px 2px rgba(0, 0, 0, 0.3);
+        filter: alpha(opacity=40);
+        opacity: 0.9;
+
+    }
+
+    .divloginbox
+    {
+        animation: loginbox 1s;
+        -moz-animation: loginbox 1s;
+        -webkit-animation: loginbox 1s;
+        -o-animation: loginbox 1s;
+    }
+
+
+    @keyframes loginbox
+    {
+        from {margin-right: -30%}
+        to {margin-right:10%}
+    }
+
+    @-moz-keyframes loginbox
+    {
+        from {margin-right: -30%}
+        to {margin-right:10%}
+    }
+
+    @-webkit-keyframes loginbox
+    {
+        from {margin-right: -30%}
+        to {margin-right:10%}
+    }
+
+    @-o-keyframes loginbox
+    {
+        from {margin-right: -30%}
+        to {margin-right:10%}
+    }
+
+
+}
+
+
+
+
+@media (max-width: 768px) {
+    .login-page-bg {
+        background: url('');
+        background-color: #d2d6de;
+    }
+
+    .login-box-right{
+        margin-top: 20%;
+        margin-right: auto;
+    }
+
+
+
+    .login-box-bg {
+        /*background-color: rgba(255,255,255,0.5);*/
+        box-shadow: 0px 2px 20px 2px rgba(0, 0, 0, 0.3);
+        filter: alpha(opacity=40);
+        opacity: 0.7;
+
+    }
+
+    .divloginbox
+    {
+        animation: loginboxtop 1s;
+        -moz-animation: loginboxtop 1s;
+        -webkit-animation: loginboxtop 1s;
+        -o-animation: loginboxtop 1s;
+    }
+
+    @keyframes loginboxtop
+    {
+        from {margin-top: 0}
+        to {margin-top:20%}
+    }
+
+    @-moz-keyframes loginboxtop
+    {
+        from {margin-top: 0}
+        to {margin-top:20%}
+    }
+
+    @-webkit-keyframes loginboxtop
+    {
+        from {margin-top: 0}
+        to {margin-top:20%}
+    }
+
+    @-o-keyframes loginboxtop
+    {
+        from {margin-top: 0}
+        to {margin-top:20%}
+    }
+
+}
+
+/***login***/

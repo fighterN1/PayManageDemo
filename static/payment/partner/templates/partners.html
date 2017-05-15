@@ -1,0 +1,282 @@
+<style>
+    .pass_timeout{
+     color: red;
+    }
+</style>
+<div ui-view>
+    <section class="content-header">
+        <h1>Partner Manage</h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-sitemap"></i> Payment
+            </li>
+            <li class="active">Partner Manage</li>
+        </ol>
+    </section>
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-aqua"><i class="ion ion-ios-people"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Waiting Compliance</span>
+                        <a role="button" ng-click="params.approving=true;loadPartners(1)"><span class="info-box-number">{{analysis.wp+analysis.a_wp}}</span></a>
+                        <small>其中自助开通:{{analysis.a_wp}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-green"><i class="ion ion-ios-people"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Pass</span>
+                        <span class="info-box-number">{{analysis.pass}}</span>
+                        <small>其中自助开通:{{analysis.z_pass+analysis.a_pass}}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-red"><i class="ion ion-ios-people"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Temp SubMerchantID</span>
+                        <a role="button" ng-click="params.tempMchId=true;loadPartners(1)"><span class="info-box-number" ng-bind="analysis.temp_submchid||0"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12">
+                <div class="info-box">
+                    <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Quick Pass</span>
+                        <a role="button" ng-click="params.quickPass=true;loadPartners(1)"><span class="info-box-number">{{analysis.quick_pass}}</span></a>
+                        <small>waiting compliance:{{analysis.a_wp}}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box-solid">
+
+                    <div class="box box-success">
+                        <div class="box-header">
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="form-horizontal">
+                                        <!--<div class="form-group">-->
+                                        <!--<label class="control-label" for="partner-code-search">Partner Code</label>-->
+                                        <!--<input class="form-control" id="partner-code-search" ng-model="params.client_moniker">-->
+                                        <!--</div>-->
+                                        <div class="form-group">
+                                            <label class="col-xs-4 col-sm-2">
+                                                <select class="form-control" ng-model="params.textType">
+                                                    <option value="all">ALL</option>
+                                                    <option value="client_moniker">Partner Code</option>
+                                                    <option value="client_name">Partner Name</option>
+                                                    <option value="remark">Remark</option>
+                                                </select>
+                                            </label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <input class="form-control" placeholder="Keyword"
+                                                       ng-enter="loadPartners(1)"
+                                                       ng-model="params.searchText">
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-sm-2" for="sub-merchant-search">Sub
+                                                Merchant ID</label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <input type="number" class="form-control" id="sub-merchant-search"
+                                                       ng-enter="loadPartners(1)"
+                                                       ng-model="params.sub_merchant_id">
+                                            </div>
+                                        </div>
+                                        <!--<div class="form-group">-->
+                                        <!--<label class="control-label" for="short-name-search">Partner Name</label>-->
+                                        <!--<input type="text" class="form-control" id="short-name-search"-->
+                                        <!--ng-model="params.short_name">-->
+                                        <!--</div>-->
+                                        <div class="form-group">
+                                            <label class="control-label col-xs-4 col-sm-2"
+                                                   for="state-select">State</label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <select ng-model="params.state" id="state-select" class="form-control"
+                                                        ng-options="state.label as state.value for state in states">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="orgs">
+                                            <label class="control-label col-xs-4 col-sm-2">Organization</label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <div uib-dropdown class="btn-group">
+
+                                                    <button id="single-button" type="button" class="btn btn-default"
+                                                            uib-dropdown-toggle ng-disabled="disabled">
+                                                        {{showOrg}} <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu" uib-dropdown-menu
+                                                        aria-labelledby="single-button">
+                                                        <li><a ng-click="chooseOrg('all')">All</a></li>
+                                                        <li ng-repeat="org in orgs"><a ng-click="chooseOrg(org)">{{org.name}}</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="'100'|withRole">
+                                            <label class="control-label col-xs-4 col-sm-2" for="only-mine-search">Only
+                                                Mine</label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <div class="checkbox-inline">
+                                                    <input type="checkbox" id="only-mine-search"
+                                                           ng-model="params.onlyMe" ng-click="loadPartners(1)">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="!('100'|withRole)">
+                                            <label class="control-label col-xs-4 col-sm-2" for="bd-select">BD
+                                                User</label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <select id="bd-select" class="form-control" ng-model="params.bd"
+                                                        ng-options="bd.manager_id as bd.display_name group by bd.org_name for bd in bdUserSource|propsFilter:{org_id:params.org_id}">
+                                                    <option value="">All</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group" ng-if="'10'|withRole">
+                                            <label class="control-label col-xs-4 col-sm-2">Status</label>
+                                            <div class="col-xs-8 col-sm-4">
+                                                <span class="form-control-static">
+                                                    <span class="checkbox-inline">
+                                                        <label>
+                                                            <input type="checkbox" ng-model="params.approving"
+                                                                   id="approving-check">
+                                                            Waiting Compliance
+                                                        </label>
+                                                    </span>
+                                                    <span class="checkbox-inline">
+                                                        <label>
+                                                            <input type="checkbox" ng-model="params.tempMchId"> Using temp Sub Merchant ID
+                                                        </label>
+                                                    </span>
+                                                    <span class="checkbox-inline">
+                                                        <label>
+                                                            <input type="checkbox" ng-model="params.quickPass"> Quick Pass
+                                                        </label>
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <button class="btn btn-primary" type="button" ng-click="loadPartners(1)"><i
+                                                    class="fa fa-search"></i> Search
+                                            </button>
+                                            <a role="button" ng-if="'11111'|withRole" class="btn btn-info"
+                                               ui-sref=".new" title="New Partner">
+                                                <i class="fa fa-plus"></i>
+                                                New Partner
+                                            </a>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Partner List</h3>
+                        </div>
+
+                        <div class="box-body no-padding table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Partner Code</th>
+                                    <th>Partner Name</th>
+                                    <th>Sub Mch ID</th>
+                                    <th>Register Time</th>
+                                    <th>Compliance Status</th>
+                                    <th>Organization</th>
+                                    <th>BD</th>
+                                    <th>Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="partner in partners" ng-class="{pass_timeout:partner.pass_timeout}">
+                                    <td>
+                                        <a class="text-primary" role="button" title="Detail"
+                                           ui-sref="partner_card({clientMoniker:partner.client_moniker})" ng-if="partner.approve_result==1">
+                                            <span ng-bind="partner.client_moniker"></span></a>
+                                        <span ng-bind="partner.client_moniker" ng-if="partner.approve_result!=1"></span>
+
+                                        <i class="fa fa-sitemap" ng-if="partner.parent_client_id"
+                                           title="Sub Partner"></i>
+                                        <i class="text-danger fa fa-envelope-o"
+                                           ng-if="partner.approve_result==1 && (partner.approve_email_send==2 || partner.approve_email_send==0)"
+                                           title="Init email send failed"></i>
+                                        <i class="text-danger fa fa-clock-o" ng-if="partner.temp_sub_merchant"
+                                           title="Using temp Sub Merchant ID"></i>
+                                    </td>
+                                    <td ng-bind="partner.short_name"></td>
+                                    <td ng-bind="partner.sub_merchant_id"></td>
+                                    <td ng-bind="partner.create_time"></td>
+                                    <td>
+                                        <span ng-if="partner.approve_result==1 && partner.approve_time">通过({{partner.approve_time}})</span>
+                                        <span ng-if="partner.approve_result==2 && partner.approve_time">自助开通试用中({{partner.approve_time}}~{{partner.expiry_time}})</span>
+                                        <span ng-if="partner.approve_result==0 && partner.approve_time">不通过({{partner.approve_time}})</span>
+                                        <span ng-if="!partner.approve_result && !partner.approve_time && partner.source!=4">资料完善中</span>
+                                        <span ng-if="!partner.approve_result && !partner.approve_time && partner.source==4">Quick Pass(等待同意协议)</span>
+                                        <span ng-if="partner.approve_result==4">等待合规</span>
+                                        <span ng-if="partner.approve_result==3">自助开通（等待合规）</span>
+                                    </td>
+                                    <td ng-bind="partner.org_name"></td>
+                                    <td ng-bind="partner.bd_user_name"></td>
+                                    <td>
+                                        <a class="text-primary" role="button" title="Detail"
+                                           ui-sref=".detail({clientMoniker:partner.client_moniker})">
+                                            <i class="fa fa-search"></i> Detail
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="box-footer" ng-if="partners.length">
+                            <uib-pagination class="pagination"
+                                            total-items="pagination.totalCount"
+                                            boundary-links="true"
+                                            ng-model="pagination.page"
+                                            items-per-page="pagination.limit"
+                                            max-size="10"
+                                            ng-change="loadPartners()"
+                                            previous-text="&lsaquo;"
+                                            next-text="&rsaquo;"
+                                            first-text="&laquo;"
+                                            last-text="&raquo;"></uib-pagination>
+                            <div class="row">
+                                <div class="col-xs-12">Total Records:{{pagination.totalCount}};Total
+                                    Pages:{{pagination.totalPages}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

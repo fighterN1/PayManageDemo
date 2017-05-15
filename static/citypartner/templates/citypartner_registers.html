@@ -1,0 +1,45 @@
+<section class="content-header">
+    <h1>City Partners</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-users"></i> Payment
+        </li>
+        <li class="active">
+            City Partners
+        </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box box-default">
+        <div class="box-body table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Apply Time</th>
+                    <th>IP</th>
+                    <th>Operation</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="apply in cityPartners">
+                    <td ng-bind="apply.city"></td>
+                    <td ng-bind="apply.name"></td>
+                    <td ng-bind="apply.email"></td>
+                    <td ng-bind="apply.phone"></td>
+                    <td ng-bind="apply.register_time"></td>
+                    <td ng-bind="apply.ip"></td>
+                    <td>
+                        <a class="text-success" ng-if="!apply.handled" role="button" ng-click="handleRegister(apply)">
+                            <i class="fa fa-check-circle-o"></i> Handle
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>

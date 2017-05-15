@@ -1,0 +1,258 @@
+<section class="content-header">
+    <h1><span ng-bind="act.act_name"></span></h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-sitemap"></i> Marketing
+        </li>
+        <li><a ui-sref="^">Activity</a></li>
+        <li class="active">Activity Detail</li>
+    </ol>
+</section>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="nav-tabs-custom">
+                <ul class="nav nav-tabs">
+                    <li ui-sref-active-eq="active">
+                        <a ui-sref="activity.detail">Activity & Lucky Money Information</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref=".send_logs">Send Logs</a>
+                    </li>
+                    <li ui-sref-active="active">
+                        <a ui-sref=".partners_binds">Partners Wechat Binds</a>
+                    </li>
+                </ul>
+                <div class="tab-content" ui-view>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Activity Information
+                            <a role="button" class="pull-right" ng-if="('001'|withRole) && (currentUser.org==1 || currentUser.org==null)"
+                               ui-sref="activity.edit({act_id:act.act_id})">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Activity Name</label>
+
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.act_name"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Activity Type</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.act_type"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Order Amount (CNY)</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.rule_order_total"></p>
+                                        <p class="small text-info">红包限制：订单满足的最小金额</p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" ng-if="act.act_type == 'partner'">
+                                    <label class="control-label col-sm-2">Rate</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.rule_order_rate"></p>
+                                        <p class="small text-info">
+                                            红包限制：红包上限占订单额的比例（eg：如占比为0.01,订单额为1000,则红包在1～10之前取随机数）</p>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="act.act_type == 'partner'">
+                                    <label class="control-label col-sm-2">RedPacket Counts</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.rule_partner_max_num"></p>
+                                        <p class="small text-info">红包限制：每个商家每天最多所能获取的红包数量</p>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="act.act_type == 'partner'">
+                                    <label class="control-label col-sm-2">Max Lucky Money</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.rule_max_lucky_money"></p>
+                                        <p class="small text-info">红包限制：单个红包的最大金额</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Probability</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.probability"></p>
+                                        <p class="small text-info">红包限制：获取红包的概率</p>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="act.act_type == 'partner'">
+                                    <label class="control-label col-sm-2">Total Budget (CNY)</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.rule_total_lucky_money"></p>
+                                        <p class="small text-info">红包限制：本次红包返现的总预算</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Activity Status</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.status"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="act.blacklist">
+                                    <label class="control-label col-sm-2">Blacklist</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static" ng-bind="act.blacklist"></p>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="panel panel-default" ng-if="act.act_type=='redpack' && act.prize_type_list">
+                            <div class="panel-heading">
+                                Lucky Money Config </div>
+                            <div class="panel-body">
+                                <div class="box-body no-padding table-responsive" >
+                                    <table class="table table-striped">
+                                        <thead>
+                                        <tr>
+                                            <th>红包种类</th>
+                                            <th>红包权重</th>
+                                            <th>总数量</th>
+                                            <th>剩余数量</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr ng-repeat="prize_type in act.prize_type_list">
+                                            <td ng-bind="prize_type.name"></td>
+                                            <td ng-bind="prize_type.weight"></td>
+                                            <td ng-bind="prize_type.total_counts"></td>
+                                            <td ng-bind="prize_type.unsend_counts"></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--end -->
+                        <!--<div class="panel panel-default" ng-if="act.act_type && sendLogs.length>0">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Send Logs <span style="font-size: smaller;color: grey">(共{{luckyMoneyAnalysis.total_counts}}个红包,待发送红包金额{{luckyMoneyAnalysis.unsend}}rmb,-->
+                            <!--已发送红包金额{{luckyMoneyAnalysis.send}}rmb)</span></div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="box-body no-padding table-responsive">-->
+                                    <!--<table class="table table-striped">-->
+                                        <!--<thead>-->
+                                        <!--<tr>-->
+                                            <!--<th>Event Time</th>-->
+                                            <!--<th>Partner Name</th>-->
+                                            <!--<th>Nick Name</th>-->
+                                            <!--<th>Lucky Money</th>-->
+                                            <!--<th>Status</th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                        <!--<tbody>-->
+                                        <!--<tr ng-repeat="send in sendLogs">-->
+                                            <!--<td ng-bind="send.event_time||send.create_time"></td>-->
+                                            <!--<td ng-bind="send.short_name"></td>-->
+                                            <!--<td><span><img style="height: 30px;width: 30px" class="img-circle"-->
+                                                           <!--ng-src="{{send.headimgurl}}"> {{send.nickname}}</span></td>-->
+                                            <!--<td ng-bind="send.red_packet_amount"></td>-->
+                                            <!--<td>-->
+                                                <!--<span ng-if="send.status==0">待发送</span>-->
+                                                <!--<span ng-if="send.status==1">发送成功</span>-->
+                                                <!--<span ng-if="send.status==2">发送失败</span>-->
+                                                <!--<span ng-if="send.status==3">已领取</span>-->
+                                                <!--<span ng-if="send.status==4">已退回</span>-->
+                                            <!--</td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                    <!--<uib-pagination ng-if="sendLogs.length"-->
+                                                    <!--class="pagination"-->
+                                                    <!--total-items="pagination.totalCount"-->
+                                                    <!--boundary-links="true"-->
+                                                    <!--ng-model="pagination.page"-->
+                                                    <!--items-per-page="pagination.limit"-->
+                                                    <!--max-size="10"-->
+                                                    <!--ng-change="showSendLMLogs()"-->
+                                                    <!--previous-text="&lsaquo;"-->
+                                                    <!--next-text="&rsaquo;"-->
+                                                    <!--first-text="&laquo;"-->
+                                                    <!--last-text="&raquo;"></uib-pagination>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--&lt;!&ndash;end &ndash;&gt;-->
+                        <!--<div class="panel panel-default">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Partners Wechat Binds <span style="font-size: smaller;color: grey">(共{{bindsPagination.totalCount}}个商户已参与)</span></div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="box-body no-padding table-responsive">-->
+                                    <!--<table class="table table-striped">-->
+                                        <!--<thead>-->
+                                        <!--<tr>-->
+                                            <!--<th>Bind Time</th>-->
+                                            <!--<th>Partner Code</th>-->
+                                            <!--<th>Partner Name</th>-->
+                                            <!--<th>Nick Name</th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                        <!--<tbody>-->
+                                        <!--<tr ng-repeat="wechat in binds">-->
+                                            <!--<td ng-bind="wechat.create_time"></td>-->
+                                            <!--<td ng-bind="wechat.client_moniker"></td>-->
+                                            <!--<td ng-bind="wechat.short_name"></td>-->
+                                            <!--<td><span><img style="height: 30px;width: 30px" class="img-circle"-->
+                                                           <!--ng-src="{{wechat.headimgurl}}"> {{wechat.nickname}}</span></td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                    <!--<uib-pagination ng-if="binds.length"-->
+                                                    <!--class="pagination"-->
+                                                    <!--total-items="bindsPagination.totalCount"-->
+                                                    <!--boundary-links="true"-->
+                                                    <!--ng-model="bindsPagination.page"-->
+                                                    <!--items-per-page="bindsPagination.limit"-->
+                                                    <!--max-size="10"-->
+                                                    <!--ng-change="getPartnersBinds()"-->
+                                                    <!--previous-text="&lsaquo;"-->
+                                                    <!--next-text="&rsaquo;"-->
+                                                    <!--first-text="&laquo;"-->
+                                                    <!--last-text="&raquo;"></uib-pagination>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+
+                        <!--<div class="panel panel-default" ng-if="error_binds.length">-->
+                            <!--<div class="panel-heading">-->
+                                <!--Partners Error Binds <span style="font-size: smaller;color: grey"></span></div>-->
+                            <!--<div class="panel-body">-->
+                                <!--<div class="box-body no-padding table-responsive">-->
+                                    <!--<table class="table table-striped">-->
+                                        <!--<thead>-->
+                                        <!--<tr>-->
+                                            <!--<th>Partner Name</th>-->
+                                            <!--<th>Partner Code</th>-->
+                                            <!--<th>BD</th>-->
+                                            <!--<th>Nick Name</th>-->
+                                        <!--</tr>-->
+                                        <!--</thead>-->
+                                        <!--<tbody>-->
+                                        <!--<tr ng-repeat="bind in error_binds">-->
+                                            <!--<td ng-bind="bind.short_name"></td>-->
+                                            <!--<td ng-bind="bind.client_moniker"></td>-->
+                                            <!--<td ng-bind="bind.bd_user_name"></td>-->
+                                            <!--<td ng-bind="bind.nickname"></td>-->
+                                        <!--</tr>-->
+                                        <!--</tbody>-->
+                                    <!--</table>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div></div>

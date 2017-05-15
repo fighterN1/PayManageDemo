@@ -1,0 +1,163 @@
+<div ui-view>
+    <section class="content-header">
+        <h1>Partner Application</h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-sitemap"></i> Payment
+            </li>
+            <li class="active">Partner Applications</li>
+        </ol>
+    </section>
+
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box-solid">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="control-label" for="short-name-search">Company Name</label>
+                                    <input type="text" class="form-control" id="short-name-search"
+                                           ng-model="params.short_name">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="button" ng-click="loadPartners(1)"><i
+                                            class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Application List</h3>
+                        </div>
+
+                        <div class="box-body no-padding table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+
+                                    <th>Application Time</th>
+                                    <th>Company Name</th>
+                                    <!--<th>ABN/ACN</th>-->
+                                    <!--<th>Industry</th>-->
+                                    <th>Suburb</th>
+                                    <th>Source</th>
+                                    <th>Approve Status</th>
+                                    <th>Partner Code</th>
+                                    <th>Progress</th>
+                                    <th>Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="partner in partners">
+                                    <td ng-bind="partner.create_time"></td>
+                                    <td ng-bind="partner.short_name"></td>
+                                    <!--<td ng-bind="partner.abn"></td>-->
+                                    <!--<td ng-bind="partner.industry"></td>-->
+                                    <td ng-bind="partner.suburb"></td>
+                                    <td>
+                                        <span ng-if="partner.source==0">PC</span>
+                                        <span ng-if="partner.source==1">公众号菜单</span>
+                                        <span ng-if="partner.source==2">公众号推送</span>
+                                    </td>
+                                    <td>
+                                        <span ng-if="partner.apply_approve_result==0||partner.apply_approve_result==null">Waiting Approving</span>
+                                        <span ng-if="partner.apply_approve_result==1" style="color: blue"> BD Approaching ({{partner.bd_user_name}})</span>
+                                        <span ng-if="partner.apply_approve_result==2" style="color: green">Pass ({{partner.bd_user_name}} {{partner.apply_approve_time}})</span>
+                                        <span ng-if="partner.apply_approve_result==3||partner.apply_approve_result==4" style="color: red">Not Pass</span>
+                                    </td>
+                                    <td title="{{partner.client_moniker}}"><a class="text-primary" role="button" title="Detail"
+                                                                              ui-sref="partners.detail({clientMoniker:partner.client_moniker})">
+                                        {{partner.client_moniker}}
+                                    </a></td>
+                                    <td ng-bind="partner.remark|limitTo:10" title="{{partner.remark}}"></td>
+                                    <td>
+                                        <a class="text-primary" role="button" title="Link" ng-if="partner.apply_approve_result==1" ng-click="linkButton(partner)">
+                                            <i class="fa fa-cog"></i> Link
+                                        </a>
+                                        <a class="text-primary" role="button" title="Detail"
+                                           ui-sref=".detail({client_apply_id:partner.client_apply_id})">
+                                            <i class="fa fa-search"></i> Detail
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="box-footer" ng-if="partners.length">
+                            <uib-pagination class="pagination"
+                                            total-items="pagination.totalCount"
+                                            boundary-links="true"
+                                            ng-model="pagination.page"
+                                            items-per-page="pagination.limit"
+                                            max-size="10"
+                                            ng-change="loadPartners()"
+                                            previous-text="&lsaquo;"
+                                            next-text="&rsaquo;"
+                                            first-text="&laquo;"
+                                            last-text="&raquo;"></uib-pagination>
+                            <div class="row">
+                                <div class="col-xs-12">Total Records:{{pagination.totalCount}};Total Pages:{{pagination.totalPages}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box-solid">
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">快速申请未注册商户的联系人列表</h3>
+                        </div>
+
+                        <div class="box-body no-padding table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+
+                                    <th>UserName</th>
+                                    <th>Display Name</th>
+                                    <th>Contact Phone</th>
+                                    <th>Wechat</th>
+                                    <th>Create Time</th>
+                                    <th>Remark</th>
+                                    <th>Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="account in accounts">
+                                    <td ng-bind="account.username"></td>
+                                    <td ng-bind="account.display_name"></td>
+                                    <td ng-bind="account.contact_phone"></td>
+                                    <td ng-bind="account.wechat_name"></td>
+                                    <td ng-bind="account.create_time"></td>
+                                    <td ng-bind="account.remark"></td>
+                                    <td><a class="btn btn-primary" role="button " title="Remark" ng-click="remarkButton(account)">
+                                         Remark
+                                    </a></td>
+                                </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

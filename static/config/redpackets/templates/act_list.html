@@ -1,0 +1,132 @@
+<div ui-view>
+    <section class="content-header">
+        <h1>Activity</h1>
+        <ol class="breadcrumb">
+            <li>
+                <i class="fa fa-sitemap"></i> Marketing
+            </li>
+            <li class="active">Activity Manage</li>
+        </ol>
+    </section>
+
+    <div class="content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="box-solid">
+                    <div class="box box-success">
+                        <div class="box-header">
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <label class="control-label" for="title-search">Activity Name</label>
+                                    <input class="form-control" id="title-search" ng-model="params.title">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label">Date Range</label>
+                                    <div style="display: inline-block">
+                                        <input class="form-control" id="date-from-input"
+                                               ng-model="params.datefrom"
+                                               uib-datepicker-popup size="10" placeholder="From"
+                                               is-open="dateBegin.open" ng-click="dateBegin.open=true"
+                                               datepicker-options="{maxDate:params.dateto||today}">
+                                    </div>
+                                    ~
+                                    <div style="display: inline-block">
+                                        <input class="form-control" id="date-to-input"
+                                               ng-model="params.dateto"
+                                               uib-datepicker-popup size="10" placeholder="To"
+                                               is-open="dateTo.open" ng-click="dateTo.open=true"
+                                               datepicker-options="{minDate:params.datefrom,maxDate:today}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-primary" type="button" ng-click="loadActivities(1)"><i
+                                            class="fa fa-search"></i></button>
+                                </div>
+                                <div class="form-group">
+
+                                    <a role="button" class="btn btn-info pull-right" ui-sref=".new"
+                                       title="New Activity">
+                                        <i class="fa fa-plus"></i>
+                                        New
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Activity List</h3>
+                        </div>
+
+                        <div class="box-body no-padding table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Create Time</th>
+                                    <th>Activity Name</th>
+                                    <th>Activity Type</th>
+                                    <!--<th>Content</th>-->
+                                    <th>Activity Status</th>
+                                    <th>Operation</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="act in activities">
+                                    <td ng-bind="act.create_time"></td>
+                                    <td ng-bind="act.act_name"></td>
+                                    <td ng-bind="act.act_type"></td>
+                                    <!--<td ng-bind="act.status"></td>-->
+                                    <td>
+                                        <span ng-if="act.status">open</span>
+                                        <span ng-if="!act.status">close</span>
+                                    </td>
+                                    <td>
+                                        <a class="text-primary" style="padding-right: 5px" role="button" title="Edit"
+                                           ui-sref=".edit({act_id:act.act_id})">
+                                            <i class="fa fa-pencil-square-o"></i>
+                                        </a>
+                                        <a class="text-primary" style="padding-right: 5px" role="button" title="Detail"
+                                           ui-sref=".detail({act_id:act.act_id})">
+                                            <i class="fa fa-search"></i>
+                                        </a>
+                                        <!--<a class="text-primary" style="padding-right: 5px" role="button" title="Generator Invitation Code"-->
+                                           <!--ng-click="generateInvitationCode(act.act_id)">-->
+                                            <!--<i class="fa fa-cog"></i>-->
+                                        <!--</a>-->
+                                        <a class="text-primary" style="padding-right: 5px" role="button" title="Invitation Code"
+                                          ng-href="/sys/lucky_money/partner/invitation_code/{{act.act_id}}/excel" target="_blank">
+                                            <i class="fa fa-download"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="box-footer" ng-if="activities.length">
+                            <uib-pagination class="pagination"
+                                            total-items="pagination.totalCount"
+                                            boundary-links="true"
+                                            ng-model="pagination.page"
+                                            items-per-page="pagination.limit"
+                                            max-size="10"
+                                            ng-change="loadActivities()"
+                                            previous-text="&lsaquo;"
+                                            next-text="&rsaquo;"
+                                            first-text="&laquo;"
+                                            last-text="&raquo;"></uib-pagination>
+                            <div class="row">
+                                <div class="col-xs-12">Total Records:{{pagination.totalCount}};Total Pages:{{pagination.totalPages}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

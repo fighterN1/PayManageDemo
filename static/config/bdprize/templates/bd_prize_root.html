@@ -1,0 +1,89 @@
+<div ui-view>
+    <section class="content-header">
+        <h1>BD Commissions</h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-usd"></i> Analysis</li>
+            <li class="active">BD Commissions</li>
+        </ol>
+    </section>
+    <section class="content">
+        <div class="box box-danger" ng-if="'1000'|withRole">
+            <div class="box-body">
+                <button class="btn btn-danger" ng-click="generateReport()">Generate Report</button>
+                <button class="btn btn-primary" ng-click="editRateConfig()"><i class="fa fa-cog"></i> Edit Rate Config</button>
+                <button class="btn btn-primary" ng-click="editBDLevels()"><i class="fa fa-user"></i> Edit BD Level</button>
+            </div>
+        </div>
+        <div class="box box-default">
+            <div class="box-header" ng-bind="params.year"></div>
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-xs-3" ng-repeat="mon in months">
+                        <a class="text-success" ui-sref=".month_report({month:mon})" ng-if="hasReport(mon) && ('1000'|withRole)">
+                            <h2 ng-bind="mon.substring(5,7)"></h2>
+                        </a>
+                        <a class="text-success" ui-sref=".bd_detail({month:mon})" ng-if="hasReport(mon) && ('100'|withRole) && (!('1000'|withRole))">
+                            <h2 ng-bind="mon.substring(5,7)"></h2>
+                        </a>
+                        <h2 class="text-gray" ng-bind="mon.substring(5,7)" ng-if="!hasReport(mon)"></h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box box-info">
+            <div class="box-header">提成规则</div>
+            <div class="box-body">
+                <h4>BD分级提成费率速查表</h4>
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                        <tr>
+                            <th>BD Level</th>
+                            <th rowspan="2">费率</th>
+                            <th rowspan="2">费率</th>
+                            <th colspan="3">Junior BD</th>
+                            <th colspan="3">Intermediate BD</th>
+                            <th colspan="3">Senior BD</th>
+                        </tr>
+                        <tr>
+                            <th>商户开通时长</th>
+                            <th>1-3个月</th>
+                            <th>4-6个月</th>
+                            <th>&gt;=7个月</th>
+                            <th>1-3个月</th>
+                            <th>4-6个月</th>
+                            <th>&gt;=7个月</th>
+                            <th>1-3个月</th>
+                            <th>4-6个月</th>
+                            <th>&gt;=7个月</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="range in bd_rate_ranges">
+                            <td ng-bind="'#'+($index+1)"></td>
+                            <td ng-bind="range.rate_from"></td>
+                            <td ng-bind="range.rate_to"></td>
+                            <td ng-repeat-start="level in [1,2,3] track by $index"
+                                ng-bind="(bd_rate_configs|filter:{rate_from:range.rate_from,bd_level:level,time_range:1})[0].prize_rate+'%'"></td>
+                            <td ng-bind="(bd_rate_configs|filter:{rate_from:range.rate_from,bd_level:level,time_range:2})[0].prize_rate+'%'"></td>
+                            <td ng-repeat-end
+                                ng-bind="(bd_rate_configs|filter:{rate_from:range.rate_from,bd_level:level,time_range:3})[0].prize_rate+'%'"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <h4>补充说明</h4>
+                <ul>
+                    <li>商户费率变更，提成比随之变更</li>
+                    <li>商户开通时长从商户开通时间起算</li>
+                    <li>后台系统自主申请商户，提成按照前三个月0.05%，后期0.01%发放，自主申请商户在详情列表中的Client Source标注为Apply</li>
+                    <li>调岗人员移交的商户，移交后6个月内移交人员和接收人员平分提成，应在商户BD配置里进行设置，分配比例请关注详情列表中的Coefficient，正常情况下应当为1</li>
+                    <li>离职人员移交的商户，接收人员享受一半提成，另一半作为BD福利基金，离职转交商户在详情列表中用红色标注</li>
+                    <li>BD提成按月发放</li>
+                    <li>每月发放总额的80%，剩余20%于每年年底，即12月25日圣诞节前发放</li>
+                    <li>提前离职者，20%提成不予发放</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>

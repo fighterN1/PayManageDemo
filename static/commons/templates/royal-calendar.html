@@ -1,0 +1,46 @@
+<div class="rc-box">
+    <div ng-if="ctrl.mode=='date'">
+        <div class="rc-control-row">
+            <button class="btn btn-default pull-left" ng-click="prevMonth()">&lt;</button>
+            <button class="btn btn-default center-btn" ng-bind="ctrl.curMonth|date:'MMM/yyyy'" ng-click="switchMonth(ctrl.curMonth)"></button>
+            <button class="btn btn-default pull-right" ng-click="nextMonth()">&gt;</button>
+        </div>
+        <div class="week week-label">
+            <div class="day" ng-repeat="day in weeks[0]" ng-class="{weekend:day.getDay()==0||day.getDay()==6}">
+                <div class="datelabel" ng-bind="day|date:'EEE'"></div>
+            </div>
+        </div>
+        <div class="week" ng-repeat="week in weeks">
+            <div class="day" ng-repeat="day in week" ng-class="{othermonth:!isSameMonth(day),weekend:day.getDay()==0||day.getDay()==6}">
+                <div class="datelabel" ng-bind="day|date:'dd'"></div>
+                <div rc-inject class="datecontent"></div>
+            </div>
+        </div>
+    </div>
+    <div ng-if="ctrl.mode=='month'">
+        <div class="rc-control-row">
+            <button class="btn btn-default pull-left" ng-click="prevYear()">&lt;</button>
+            <button class="btn btn-default center-btn" ng-bind="ctrl.curYear" ng-click="switchYear(ctrl.curYear)"></button>
+            <button class="btn btn-default pull-right" ng-click="nextYear()">&gt;</button>
+        </div>
+        <div class="week month-mode" ng-repeat="group in monthGroup">
+            <div class="day" ng-repeat="mon in group" ng-click="resetMonth(mon)">
+                <div class="datelabel" ng-bind="mon|date:'MMM'"></div>
+            </div>
+        </div>
+    </div>
+
+    <div ng-if="ctrl.mode=='year'">
+        <div class="rc-control-row">
+            <button class="btn btn-default pull-left" ng-click="prevYearGroup()">&lt;</button>
+            <div class="center-btn" ng-bind="ctrl.curYearGroup*16+' - '+(ctrl.curYearGroup*16+15)"></div>
+            <button class="btn btn-default pull-right" ng-click="nextYearGroup()">&gt;</button>
+        </div>
+        <div class="week month-mode" ng-repeat="group in yearGroup">
+            <div class="day" ng-repeat="year in group" ng-click="switchMonth(year)">
+                <div class="datelabel" ng-bind="year|date:'yyyy'"></div>
+            </div>
+        </div>
+    </div>
+
+</div>

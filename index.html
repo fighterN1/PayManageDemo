@@ -1,0 +1,432 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="UTF-8">
+    <title>RoyalPay</title>
+    <meta name="format-detection" content="telephone=no">
+    <link rel="apple-touch-icon" sizes="57x57" href="ico\apple-icon-57x57-2.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="ico\apple-icon-60x60-2.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="ico\apple-icon-72x72-2.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="ico\apple-icon-76x76-2.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="ico\apple-icon-114x114-2.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="ico\apple-icon-120x120-2.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="ico\apple-icon-144x144-2.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="ico\apple-icon-152x152-2.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="ico\apple-icon-180x180-2.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="ico\android-icon-192x192-2.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="ico\favicon-32x32-2.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="ico\favicon-96x96-2.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="ico\favicon-16x16-2.png">
+    <link rel="manifest" href="ico\manifest-2.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="static\lib\bootstrap\css\bootstrap.min-2.css">
+
+
+    <!-- Font Awesome -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+    <link href="static\lib\font-awesome-4.6.3\css\font-awesome.min-2.css" rel="stylesheet">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="static\lib\ioicons-2.0.1\css\ionicons.min-1.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="static\lib\dist\css\AdminLTE.min-2.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="static\lib\dist\css\skins\_all-skins.min-1.css">
+    <link rel="stylesheet" href="static\css\common-1.css">
+    <style type="text/css">
+        .ng-cloak, [ng-cloak] {
+            display: none !important;
+        }
+
+        @keyframes myfirst {
+            0% {
+                transform: rotateY(1deg);
+            }
+            100% {
+                transform: rotateY(90deg);
+            }
+        }
+
+        div.polaroid {
+
+            text-align: center;
+        }
+
+        div.rotate_left {
+            position: fixed;
+            width: 200px;
+            margin: 0 -100px;
+            top: 40%;
+            left: 50%;
+            z-index: 9999999;
+        }
+
+        .dh {
+            width: 30px;
+            animation: myfirst 1s linear 0s infinite alternate;
+        }
+        #help img{
+            z-index: 5;
+             height: 120px;
+            width: 120px;
+            border: 3px solid;
+            border-color: transparent;
+        }
+
+
+        @keyframes redpacket {
+            0% {
+                transform: rotate(0deg);
+            }
+            10% {
+                transform: rotate(0deg);
+            }
+            90% {
+                transform: rotate(0deg);
+            }
+            95% {
+                transform: rotate(-10deg);
+            }
+            100% {
+                transform: rotate(20deg);
+            }
+        }
+        .redpacket {
+            width: 25px;
+            margin-top: -10px;
+            animation: redpacket 1s cubic-bezier(0.96,-0.02, 0.92, 0.64) 0s infinite alternate;
+        }
+    </style>
+    <script type="text/javascript" src="static\lib\require-1.js" data-main="static/boot/index-boot"></script>
+</head>
+
+<body ng-controller="indexCtrl" class="skin-blue sidebar-mini" ng-class="{'sidebar-collapse':hideSideBar,'sidebar-open':hideSideBar}">
+<div class="polaroid" ng-if="currentUser==null">
+    <div class="rotate_left">
+        <img class="dh" src="static\images\dh_logo-2.png" alt="royalpay" style="width: 200px">
+        <p style="color: #666">Easy Business，Easy Pay</p>
+    </div>
+</div>
+<div class="wrapper royalpay" ng-if="currentUser!=null" ng-cloak="">
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo logo-yedian shine">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><img src="static\images\dh_logo-2.png" style="max-height: 45px;margin-bottom: 8px;margin-right: 5px;"></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><img src="static\images\dh_logo-2.png" style="max-height: 45px;margin-bottom: 8px;margin-right: 5px;"><b>RoyalPay</b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <!--顶部导航栏-->
+        <nav class="navbar navbar-static-top navbar-static-top-yedian" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a class="sidebar-toggle sidebar-tooggle-yedian" data-toggle="offcanvas" role="button" ng-click="toggleHideSideBar()">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+
+                    <li ui-sref-active="active" ng-if="(currentUser.role=='1' || currentUser.role=='2') && currentUser.client.approve_result==1" title="店长红包|Manager Welfare">
+                        <a ui-sref="partner_wechat">
+                            <img class="redpacket" src="static\images\red_packet.png"><!--<span class="badge bg-yellow">店长红包|Manager Welfare</span>-->
+                        </a>
+                    </li>
+
+                    <li ng-class="{'dropdown notifications-menu open':openNotice,'dropdown notifications-menu':!openNotice}">
+                        <a href="" ng-click="toggleOpenNotice()" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning" ng-if="notice.unReadCounts>0">{{notice.unReadCounts}}</span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="header">You have {{notice.pagination.totalCount}} notifications,{{notice.unReadCounts}} unread.</li>
+                            <li>
+                                <!-- inner menu: contains the actual data -->
+                                <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; max-height: 200px;"><ul class="menu" style="overflow: hidden; width: 100%;">
+                                    <li ng-repeat="n in notice.data.slice(0,4)">
+                                        <a href="" ng-click="showNotice(n)">
+                                            <i ng-if="n.status=='0'" class="fa fa-commenting"></i>
+                                            {{n.title|limitTo:20}}<span style="font-size:smaller;float:right;right: 0" ng-bind="n.send_time|limitTo:10"></span>
+                                        </a>
+                                    </li>
+
+                                </ul><div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 3px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 195.122px;"></div><div class="slimScrollRail" style="width: 3px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div></div>
+                            </li>
+                            <li class="footer"><a ui-sref="partner_notice">View all</a></li>
+                        </ul>
+                    </li>
+                    <li class="user-menu">
+                        <a role="button" ng-click="userCheckIn()">
+                            <i class="fa fa-wechat"></i> Bind WeChat
+                        </a>
+                    </li>
+                    <!--<li class="user-menu">-->
+                        <!--<a role="button"  tooltip-placement="bottom" uib-tooltip-html="'03 9077 1639 </br> info@royalpay.com.au'">-->
+                            <!--<i class="fa fa-question-circle-o" aria-hidden="true"></i> Help-->
+                        <!--</a>-->
+                    <!--</li>-->
+                    <li id="help" class="dropdown user user-menu" uib-dropdown="">
+                        <a href="" class="dropdown-toggle" uib-dropdown-toggle="">
+                            <i class="fa fa-question-circle-o" aria-hidden="true"></i> Support
+                        </a>
+                        <ul class="dropdown-menu user-dropdown-menu" ng-cloak="">
+                            <!-- User image -->
+                            <li class="user-header user-header-yedian">
+                                <img src="static\images\customer_service.jpg" alt="Customer Service Qrcode">
+                                <p>
+                                    Technical Support WeChat
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <!--Customer Service:  <br/>-->
+                                <i class="fa fa-phone" aria-hidden="true"></i>  1300-10-77-50,03 9077 1639 <br>
+                                <i class="fa fa-envelope-o" aria-hidden="true"></i>  support@royalpay.com.au<br>
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>  Mon-Fri (9:00am-5:30pm)
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu" uib-dropdown="">
+                        <a href="" class="dropdown-toggle" uib-dropdown-toggle="">
+                            <img ng-src="{{currentUser.client.logo_thumbnail||'static/images/logo.png'}}" class="user-image user-img-yedian" alt="User Image">
+                            <span class="hidden-xs" ng-bind="currentUser.display_name"></span>
+                            <span class="hidden-xs" style="font-size: smaller;font-weight: bolder;color: yellowgreen" ng-if="currentUser.client.approve_result==2">（未认证）</span>
+                            <span class="hidden-xs" style="font-size: smaller;font-weight: bolder;color: yellowgreen" ng-if="currentUser.client.approve_result==3">（认证中）</span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown-menu" ng-cloak="">
+                            <!-- User image -->
+                            <li class="user-header user-header-yedian">
+                                <img ng-src="{{currentUser.client.logo_url||'static/images/logo.png'}}" alt="User Image">
+
+                                <p>
+                                    {{currentUser.client.short_name}}
+                                    <small ng-bind="currentUser.display_name"></small>
+                                    <small style="color: lightcoral" ng-if="currentUser.client.approve_result==2">(expiration date:{{currentUser.auth_day}})</small>
+                                    <!--<a ui-sref="completePartnerInfo" role="button">Authentication</a>-->
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="" class="btn btn-default btn-flat" title="Change Password" ng-click="changePwd()">Password</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="" class="btn btn-default btn-flat" ng-click="logout()">Sign Out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!--end:顶部导航栏-->
+    <!-- Left side column. contains the logo and sidebar -->
+    <!--左边栏-->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <ul class="sidebar-menu">
+
+                <li ui-sref-active="active">
+                    <a ui-sref="partner_dashboard">
+                        <i class="fa fa-dashboard"></i>
+                        <span>DashBoard</span>
+                    </a>
+                </li>
+
+                <li class="header nav-header">Payment</li>
+
+                <li ui-sref-active="active">
+                    <a ui-sref="trade">
+                        <i class="fa  fa-list-alt"></i> <span>Orders</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="transflow">
+                        <i class="fa fa-balance-scale"></i> <span>Transactions</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="settlementlogs">
+                        <i class="fa fa-calendar"></i> <span>Settlement</span>
+                    </a>
+                </li>
+                <li class="header nav-header">Products & Sale</li>
+                <li ui-sref-active="active">
+                    <a ui-sref="goods">
+                        <i class="fa fa-shopping-bag"></i> <span>Products</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="sale">
+                        <i class="fa fa-shopping-cart"></i> <span>Sale</span>
+                    </a>
+                </li>
+                <li class="header nav-header" ng-if="currentUser.client.client_moniker=='PINE'">VIP Customers</li>
+                <li ui-sref-active="active" ng-if="currentUser.client.client_moniker=='PINE'">
+                    <a ui-sref="vipcustomers">
+                        <i class="fa fa-users" aria-hidden="true"></i> <span>VIP Qrcode</span>
+                    </a>
+                </li>
+
+                <li class="header nav-header" ng-if="(currentUser.client.client_moniker=='PINE' || currentUser.client.client_moniker=='LMEN') && ([1,2]|withRole)">Couriers</li>
+                <li ui-sref-active="active" ng-if="currentUser.client.client_moniker=='PINE' || currentUser.client.client_moniker=='LMEN'">
+                    <a ui-sref="cashiers">
+                        <i class="fa fa-users" aria-hidden="true"></i> <span>Couriers Management</span>
+                    </a>
+                </li>
+                <!--<li ui-sref-active="active">-->
+                    <!--<a ui-sref="sale">-->
+                        <!--<i class="fa fa-shopping-cart"></i> <span>Payment Logs</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li class="header nav-header" ng-if="currentUser.client.client_moniker=='PINE'">Marketing</li>-->
+                <!--<li ui-sref-active="active" ng-if="currentUser.client.client_moniker=='PINE'">-->
+                    <!--<a ui-sref="partner_wechat">-->
+                        <!--<i class="fa fa-jpy"></i> <span>Lucky Money</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+
+
+                <!--<li ui-sref-active="active">-->
+                    <!--<a ui-sref="coupon">-->
+                        <!--<i class="fa fa-ticket"></i> <span>Coupons</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li ui-sref-active="active">-->
+                    <!--<a ui-sref="activity">-->
+                        <!--<i class="fa fa-compass"></i> <span>Activities</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li ui-sref-active="active">-->
+                    <!--<a ui-sref="cashiers">-->
+                        <!--<i class="fa fa-credit-card"></i> <span>Members</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+                <!--<li ui-sref-active="active">-->
+                    <!--<a ui-sref="services">-->
+                        <!--<i class="fa fa-diamond"></i> <span>Services</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+
+                <li class="header nav-header">Analysis</li>
+
+                <li ui-sref-active="active">
+                    <a ui-sref="customers_orders_analysis">
+                        <i class="fa fa-bar-chart"></i> <span>Customers Analysis</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="partner_trans_analysis">
+                        <i class="fa fa-line-chart"></i> <span>Transaction Analysis</span>
+                    </a>
+                </li>
+               <!-- <li ui-sref-active="active">
+                    <a ui-sref="marketinganalysis">
+                        <i class="fa fa-pie-chart"></i> <span>Market Analysis</span>
+                    </a>
+                </li>-->
+
+
+                <li class="header nav-header">Configuration</li>
+
+                <li ui-sref-active="active">
+                    <a ui-sref="basic">
+                        <i class="fa fa-users"></i> <span>Client Details</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active">
+                    <a ui-sref="payment_materials">
+                        <i class="fa fa-file-image-o"></i> <span>Marketing Materials</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="[1]|withRole">
+                    <a ui-sref="accounts">
+                        <i class="fa fa-users"></i> <span>Accounts</span>
+                    </a>
+
+                </li>
+                <li ui-sref-active="active" ng-if="currentUser.client.has_children">
+                    <a ui-sref="sub_partners">
+                        <i class="fa fa-puzzle-piece"></i> <span>Sub Partners</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="[1]|withRole">
+                    <a ui-sref="parameter">
+                        <i class="fa fa-gears"></i> <span>Settings</span>
+                    </a>
+
+                </li>
+                <li ui-sref-active="active" ng-if="[1]|withRole">
+                    <a ui-sref="devices">
+                        <i class="fa fa-mobile"></i> <span>Devices</span>
+                    </a>
+                </li>
+                <li ng-click="showMyLoginLogs()">
+                    <a role="button">
+                        <i class="fa fa-list-alt"></i> <span>Login History</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="([1]|withRole) && currentUser.client.approve_result>0">
+                    <a ui-sref="completePartnerInfo">
+                        <i class="fa fa-file"></i> <span>Authentication</span>
+                    </a>
+                </li>
+
+            </ul>
+
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!--END:左边栏-->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper autoheight" ui-view="">
+    </div>
+    <!-- /.content-wrapper -->
+    <div class="navbar-fixed-top" ng-if="currentUser.client.approve_result==2" style="top: 40%;left: 91%;opacity: 0.9;transition: opacity 4s">
+        <a ui-sref="completePartnerInfo" role="button" class="btn btn-danger">Authentication</a>
+    </div>
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Easy Business，Easy Pay</b>
+        </div>
+        <strong>Copyright © 2015-2016 <a href="http://www.royalpay.com.au">RoyalPay</a>.</strong> All rights
+        reserved.&nbsp;&nbsp;&nbsp;
+
+        <style>
+            /* Specify styling for tooltip contents */
+            .tooltip.customClass .tooltip-inner {
+                /*color: #880000;*/
+                /*background-color: #ffff66;*/
+                background-color: transparent;
+                /*box-shadow: 1px 1px 1px 1px rgba(0,0,0,.175);*/
+            }
+            /* Hide arrow */
+            .tooltip.customClass .tooltip-arrow {
+                display: none;
+            }
+        </style>
+        <span style="font-size: smaller"> ( <i class="fa fa-phone" aria-hidden="true"></i> 1300-10-77-50,03 9077 1639 |
+            <i class="fa fa-envelope-o" aria-hidden="true"></i> support@royalpay.com.au |
+        WeChat <i class="fa fa-qrcode" aria-hidden="true" tooltip-class="customClass" uib-tooltip-html="'<img src=static/images/customer_service.jpg>'"></i> )
+            </span>
+    </footer>
+
+</div>
+<!-- ./wrapper -->
+</body>
+</html>

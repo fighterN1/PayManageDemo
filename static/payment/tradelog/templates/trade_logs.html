@@ -1,0 +1,193 @@
+<section class="content-header">
+    <h1>Trade Logs</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-list-alt"></i> Payment
+        </li>
+        <li class="active">Trade Logs</li>
+    </ol>
+</section>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box-solid">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group col-xs-12">
+                                        <label class="col-xs-4 col-sm-2">
+                                            <select class="form-control" ng-model="params.textType">
+                                                <option value="all">ALL</option>
+                                                <option value="client_moniker">Partner Code</option>
+                                                <option value="client_name">Partner Name</option>
+                                                <option value="remark">Remark</option>
+                                            </select>
+                                        </label>
+                                        <div class="col-sm-4 col-xs-8">
+                                            <input class="form-control" placeholder="Keyword" ng-enter="loadTradeLogs(1)"
+                                                   ng-model="params.searchText">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-12">
+                                        <label class="control-label col-xs-4 col-sm-2">Status</label>
+                                        <div class="col-sm-10 col-xs-8">
+                                            <p class="form-control-static">
+                                                <a role="button" ng-class="{'bg-primary':params.status=='ALL'}"
+                                                   ng-click="params.status='ALL';loadTradeLogs(1)">All</a> |
+                                                <a role="button" ng-class="{'bg-primary':params.status=='PAID'}"
+                                                   ng-click="params.status='PAID';loadTradeLogs(1)">Payment Success</a> |
+                                                <a role="button" ng-class="{'bg-primary':params.status=='ALL_REFUNDED'}"
+                                                   ng-click="params.status='ALL_REFUNDED';loadTradeLogs(1)">All Refund</a> |
+                                                <a role="button" ng-class="{'bg-primary':params.status=='PARTIAL_REFUNDED'}"
+                                                   ng-click="params.status='PARTIAL_REFUNDED';loadTradeLogs(1)">Partial Refund</a> |
+                                                <a role="button" ng-class="{'bg-primary':params.status=='FULL_REFUNDED'}"
+                                                   ng-click="params.status='FULL_REFUNDED';loadTradeLogs(1)">Full Refund</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-12">
+                                        <label class="control-label col-xs-4 col-sm-2">Gateway</label>
+                                        <div class="col-sm-10 col-xs-8">
+                                            <p class="form-control-static">
+                                                <a role="button" ng-class="{'bg-primary':params.gateway==null}"
+                                                   ng-click="params.gateway=null;loadTradeLogs(1)">All</a> |
+                                                <a role="button" ng-class="{'bg-primary':gatewaySelected([0,1])}"
+                                                   ng-click="params.gateway=[0,1];loadTradeLogs(1)">Retail In-Store</a> |
+                                                <a role="button" ng-class="{'bg-primary':gatewaySelected([5,6])}"
+                                                   ng-click="params.gateway=[5,6];loadTradeLogs(1)">Retail API</a> |
+                                                <a role="button" ng-class="{'bg-primary':gatewaySelected([2,7])}"
+                                                   ng-click="params.gateway=[2,7];loadTradeLogs(1)">QR Code</a> |
+                                                <a role="button" ng-class="{'bg-primary':gatewaySelected([3])}"
+                                                   ng-click="params.gateway=[3];loadTradeLogs(1)">Online API</a> |
+                                                <a role="button" ng-class="{'bg-primary':gatewaySelected([4])}"
+                                                   ng-click="params.gateway=[4];loadTradeLogs(1)">WeChat HTML5</a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-xs-12">
+                                        <label class="control-label col-xs-4 col-sm-2">Date Range</label>
+                                        <div class="col-sm-10 col-xs-8">
+                                            <div class="form-control-static form-inline">
+                                                <div style="display: inline-block">
+                                                    <input class="form-control" id="date-from-input" ng-model="params.datefrom"
+                                                           uib-datepicker-popup size="10" placeholder="From"
+                                                           is-open="dateBegin.open" ng-click="dateBegin.open=true"
+                                                           datepicker-options="{maxDate:params.dateto||today}">
+                                                </div>
+                                                ~
+                                                <div style="display: inline-block">
+                                                    <input class="form-control" id="date-to-input" ng-model="params.dateto"
+                                                           uib-datepicker-popup size="10" placeholder="To"
+                                                           is-open="dateTo.open" ng-click="dateTo.open=true"
+                                                           datepicker-options="{minDate:params.datefrom,maxDate:today}">
+                                                </div>
+
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseToday()">Today</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseYesterday()">Yesterday</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseLast7Days()">Last 7 Days</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm" ng-click="thisMonth()">This Month</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm" ng-click="lastMonth()">Last Month</a>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <button class="btn btn-success" type="button" ng-click="loadTradeLogs(1)">
+                                        <i class="fa fa-search"></i> Search
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Trade Orders
+                            <span class="small" ng-if="tradeLogs.length">(Found {{pagination.totalCount}} orders and {{analysis.order_count}} transactions worth of {{analysis.paid_fee|currency:'AUD'}})</span>
+                        </h3>
+                        <a class="pull-right text-bold" ng-if="currentUserHasRole(1)" role="button"
+                           ng-click="confirmOrders()">Manual Confirm Orders</a>
+                    </div>
+                    <div class="box-body table-responsive">
+                        <table class="table table-bordered table-hover table-striped">
+                            <thead>
+                            <tr>
+                                <th>Partner</th>
+                                <th>Order ID</th>
+                                <th>Amount</th>
+                                <th>AUD Amount</th>
+                                <th>Exchange Rate</th>
+                                <th>Status</th>
+                                <th>Create Time</th>
+                                <th>Gateway</th>
+                                <th>Operation</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="trade in tradeLogs">
+                                <td>
+                                    <a role="button" ui-sref="partners.detail({clientMoniker:trade.client_moniker})">
+                                        {{trade.short_name}}({{trade.client_moniker}})
+                                    </a>
+                                </td>
+                                <td ng-bind="trade.order_id"></td>
+                                <td>
+                                    {{trade.total_amount|currency:trade.currency+' '}}
+                                    <a ng-if="trade.refund_fee" class="text-danger" role="button"
+                                       ng-click="showRefundLog(trade.order_id)">(-{{trade.refund_fee}})</a>
+                                </td>
+                                <td ng-bind="trade.clearing_amount|currency:'AUD '"></td>
+                                <td ng-bind="trade.exchange_rate"></td>
+                                <td ng-bind="trade.status|tradeStatus"></td>
+                                <td ng-bind="trade.create_time"></td>
+                                <td ng-bind="trade.gateway|tradeGateway"></td>
+                                <td>
+                                    <a role="button" class="text-bold" ng-click="showTradeDetail(trade)" title="Detail">
+                                        <i class="fa fa-list-alt"></i>
+                                    </a>
+                                    <a role="button" ng-if="trade.status>=5 && trade.confirm_time!=null && trade.clearing_status<2 && ('11011'|withRole)" title="Refund"
+                                       class="text-bold text-danger" ng-click="newRefund(trade.order_id)">
+                                        <i class="fa fa-undo"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                    <div class="box-body" ng-if="tradeLogs.length">
+                        <uib-pagination class="pagination"
+                                        total-items="pagination.totalCount"
+                                        boundary-links="true"
+                                        ng-model="pagination.page"
+                                        items-per-page="pagination.limit"
+                                        max-size="10"
+                                        ng-change="loadTradeLogs()"
+                                        previous-text="&lsaquo;"
+                                        next-text="&rsaquo;"
+                                        first-text="&laquo;"
+                                        last-text="&raquo;"></uib-pagination>
+                        <div class="row">
+                            <div class="col-xs-12">Total Records:{{pagination.totalCount}};Total Pages:{{pagination.totalPages}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

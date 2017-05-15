@@ -1,0 +1,391 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="apple-touch-icon" sizes="57x57" href="ico\apple-icon-57x57-1.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="ico\apple-icon-60x60-1.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="ico\apple-icon-72x72-1.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="ico\apple-icon-76x76-1.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="ico\apple-icon-114x114-1.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="ico\apple-icon-120x120-1.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="ico\apple-icon-144x144-1.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="ico\apple-icon-152x152-1.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="ico\apple-icon-180x180-1.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="ico\android-icon-192x192-1.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="ico\favicon-32x32-1.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="ico\favicon-96x96-1.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="ico\favicon-16x16-1.png">
+    <link rel="manifest" href="ico\manifest-1.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="format-detection" content="telephone=no">
+    <meta charset="UTF-8">
+    <title>RoyalPay</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="static\lib\bootstrap\css\bootstrap.min-1.css">
+
+
+    <!-- Font Awesome -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+    <link href="static\lib\font-awesome-4.6.3\css\font-awesome.min-1.css" rel="stylesheet">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="static\lib\ioicons-2.0.1\css\ionicons.min.css">
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="static\lib\dist\css\AdminLTE.min-1.css">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="static\lib\dist\css\skins\_all-skins.min.css">
+    <link rel="stylesheet" href="static\css\common.css">
+    <style type="text/css">
+        .ng-cloak, [ng-cloak] {
+            display: none !important;
+        }
+
+        @keyframes myfirst {
+            0% {
+                transform: rotateY(1deg);
+            }
+            100% {
+                transform: rotateY(90deg);
+            }
+        }
+
+        div.polaroid {
+            text-align: center;
+        }
+
+        div.rotate_left {
+            position: fixed;
+            width: 200px;
+            margin: 0 -100px;
+            top: 40%;
+            left: 50%;
+            z-index: 9999999;
+        }
+
+        .dh {
+            animation: myfirst 1s linear 0s infinite alternate; 
+        }
+    </style>
+    <script type="text/javascript" src="static\lib\require.js" data-main="static/boot/manager-boot.js?sssd2"></script>
+</head>
+<body ng-controller="managerIndexCtrl" class="skin-blue sidebar-mini" ng-class="{'sidebar-collapse':hideSideBar,'sidebar-open':hideSideBar}">
+<div class="polaroid" ng-if="currentUser==null">
+    <div class="rotate_left">
+        <img class="dh" src="static\images\dh_logo-1.png" alt="RoyalPay" style="width: 200px">
+        <p style="color: #666">To Be The Best QRCode Payment Service Provider!</p>
+    </div>
+</div>
+<div class="wrapper" ng-if="currentUser!=null" ng-cloak="" ng-class="currentUser.org?(currentUser.org.banner_class||'fxplus'):'royalpay'">
+
+    <header class="main-header">
+        <!-- Logo -->
+        <a href="#" class="logo logo-yedian shine" ng-if="!currentUser.org">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><img src="static\images\dh_logo-1.png" style="max-height: 45px;margin-bottom: 8px;margin-right: 5px;"></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><img src="static\images\dh_logo-1.png" style="max-height: 45px;margin-bottom: 8px;margin-right: 5px;"><b>TestManage</b></span>
+        </a>
+        <a href="#" class="logo logo-yedian shine" ng-if="currentUser.org">
+            <!-- mini logo for sidebar mini 50x50 pixels -->
+            <span class="logo-mini"><img ng-src="{{currentUser.org.logo}}" style="max-height: 45px;margin-bottom: 8px;margin-right: 5px;"></span>
+            <!-- logo for regular state and mobile devices -->
+            <span class="logo-lg"><img ng-src="{{currentUser.org.logo}}" style="max-height: 45px;margin-bottom: 8px;margin-right: 5px;"><b ng-bind="currentUser.org.name"></b></span>
+        </a>
+        <!-- Header Navbar: style can be found in header.less -->
+        <!--顶部导航栏-->
+        <nav class="navbar navbar-static-top navbar-static-top-yedian" role="navigation">
+            <!-- Sidebar toggle button-->
+            <a class="sidebar-toggle sidebar-tooggle-yedian" data-toggle="offcanvas" role="button" ng-click="toggleHideSideBar()">
+                <span class="sr-only">Toggle navigation</span>
+            </a>
+
+            <div class="navbar-custom-menu">
+                <ul class="nav navbar-nav">
+                    <li class="user-menu">
+                        <a role="button" ng-click="managerBindWechat()">
+                            <i class="fa fa-wechat"></i> Bind WeChat
+                        </a>
+                    </li>
+                    <li ng-if="('110'|withRole)">
+                        <a ui-sref="partner_application" title="New Partner Application">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="label label-warning" ng-if="partner_application_new>0">{{partner_application_new}}</span>
+                        </a>
+                    </li>
+
+                    <!-- User Account: style can be found in dropdown.less -->
+                    <li class="dropdown user user-menu" uib-dropdown="">
+                        <a href="" class="dropdown-toggle" uib-dropdown-toggle="">
+                            <img ng-src="{{currentUser.org.logo||'static/images/logo.png'}}" class="user-image user-img-yedian" alt="User Image">
+                            <span class="hidden-xs" ng-bind="currentUser.display_name"></span>
+                        </a>
+                        <ul class="dropdown-menu user-dropdown-menu" ng-cloak="">
+                            <!-- User image -->
+                            <li class="user-header user-header-yedian">
+                                <img ng-src="{{currentUser.org.logo||'static/images/logo.png'}}" class="img-circle" alt="User Image">
+
+                                <p>
+                                    {{currentUser.display_name}}
+                                    <small>
+                                        <i class="fa fa-user-secret" title="Administrator" ng-class="{'text-green':!('1'|withRole),'text-gray':('1'|withRole)}"></i>
+                                        <i class="fa fa-eye" title="Compliance" ng-class="{'text-green':!('10'|withRole),'text-gray':('10'|withRole)}"></i>
+                                        <i class="fa fa-crosshairs" title="BD User" ng-class="{'text-green':!('100'|withRole),'text-gray':('100'|withRole)}"></i>
+                                        <i class="fa fa-balance-scale" title="Accountant" ng-class="{'text-green':!('1000'|withRole),'text-gray':('1000'|withRole)}"></i>
+                                        <i class="fa fa-tty" title="Service" ng-class="{'text-green':!('10000'|withRole),'text-gray':('10000'|withRole)}"></i>
+                                        <i class="fa fa-university" title="Account Manager" ng-class="{'text-green':!('100000'|withRole),'text-gray':('100000'|withRole)}"></i>
+                                        <i class="fa fa-line-chart" title="Director" ng-class="{'text-green':!('1000000'|withRole),'text-gray':('1000000'|withRole)}"></i>
+                                        <i class="fa fa-map-o" title="Site Manager" ng-class="{'text-green':!('10000000'|withRole),'text-gray':('10000000'|withRole)}"></i>
+                                        <i class="fa fa-code" title="Developer" ng-class="{'text-green':!('100000000'|withRole),'text-gray':('100000000'|withRole)}"></i>
+                                    </small>
+                                </p>
+                            </li>
+                            <!-- Menu Footer-->
+                            <li class="user-footer">
+                                <div class="pull-left">
+                                    <a href="" class="btn btn-default btn-flat" ng-click="changePwd()">Change Password</a>
+                                </div>
+                                <div class="pull-right">
+                                    <a href="" class="btn btn-default btn-flat" ng-click="logout()">Sign Out</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Control Sidebar Toggle Button -->
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <!--end:顶部导航栏-->
+    <!-- Left side column. contains the logo and sidebar -->
+    <!--左边栏-->
+    <aside class="main-sidebar">
+        <!-- sidebar: style can be found in sidebar.less -->
+        <section class="sidebar">
+
+            <ul class="sidebar-menu">
+
+                <li ui-sref-active="active" ng-if="'dashboard'|withModule">
+                    <a ui-sref="dashboard">
+                        <i class="fa fa-dashboard"></i>
+                        <span>控制台|Dashboard</span>
+                    </a>
+                </li>
+
+                <li class="header nav-header" ng-if="'1011110'|withRole">支付结算|Payment</li>
+                <li ui-sref-active="active" ng-if="'partners'|withModule">
+                    <a ui-sref="partners" ui-sref-opts="{reload:true}">
+                        <i class="fa  fa-sitemap"></i> <span>商户管理|Partner Manage</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="('partnerapply'|withModule) && (currentUser.org_id==1 || currentUser.org_id==null)">
+                    <a ui-sref="partner_application" ui-sref-opts="{reload:true}">
+                        <i class="fa  fa-envelope-o"></i> <span>自主申请|Partner Applies</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'tradelog'|withModule">
+                    <a ui-sref="trade" ui-sref-opts="{reload:true}">
+                        <i class="fa  fa-list-alt"></i> <span>交易流水|Trades Logs</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'ordervalid'|withModule">
+                    <a ui-sref="order_valid">
+                        <i class="fa fa-balance-scale"></i> <span>交易对账|Order Validation</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'clearing'|withModule">
+                    <a ui-sref="clearingLogs" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-line-chart"></i> <span>清算统计|Settlement Logs</span>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" ng-if="'austrac'|withModule">
+                    <a ui-sref="transreport" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-file-excel-o"></i> <span>Austrac Report</span>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" ng-if="'citypartner'|withModule">
+                    <a ui-sref="citypartner_reg" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-users"></i> <span>City Partners</span>
+                    </a>
+                </li>
+                <!--<li ui-sref-active="active" ng-if="'11010'|withRole">-->
+                <!--<a ui-sref="notice">-->
+                <!--<i class="fa  fa-bell"></i> <span>结算通知</span>-->
+                <!--</a>-->
+                <!--</li>-->
+
+                <li class="header nav-header" ng-if="('1011110'|withRole) || currentUser.org_id==null">营销服务|Promotion
+                </li>
+                <!--<li ui-sref-active="active" ng-if="'0011100'|withRole">-->
+                <!--<a ui-sref="redpack">-->
+                <!--<i class="fa fa-jpy"></i> <span>红包</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li ui-sref-active="active" ng-if="'0011100'|withRole">-->
+                <!--<a ui-sref="coupon">-->
+                <!--<i class="fa fa-ticket"></i> <span>卡券</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <li ui-sref-active="active" ng-if="('activities'|withModule) && (currentUser.org_id==1 || currentUser.org_id==null)">
+                    <a ui-sref="activity.detail({act_id:'2'})" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-compass"></i> <span>店长行动|Activities</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="('act_redpack'|withModule)">
+                    <a ui-sref="act_partners" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-compass"></i> <span>店长行动参与情况</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="('onedollarday'|withModule)">
+                    <a ui-sref="one_dollar_day_analysis">
+                        <i class="fa fa-gift"></i> <span>一元日</span>
+                    </a>
+                </li>
+                <!--<li ui-sref-active="active" ng-if="'0011100'|withRole">-->
+                <!--<a ui-sref="members">-->
+                <!--<i class="fa fa-credit-card"></i> <span>会员</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <!--<li ui-sref-active="active" ng-if="'0011100'|withRole">-->
+                <!--<a ui-sref="services">-->
+                <!--<i class="fa fa-diamond"></i> <span>商户服务</span>-->
+                <!--</a>-->
+                <!--</li>-->
+
+                <li class="header nav-header" ng-if="'1011110'|withRole">数据分析|Analysis</li>
+                <li ui-sref-active="active" ng-if="'transAnalysis'|withModule">
+                    <a ui-sref="transanalysis" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-area-chart"></i> <span>交易数据|Transaction Data</span>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" ng-if="'dashboard'|withModule">
+                    <a ui-sref="dashboard.gateway" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-area-chart"></i> <span>Gateway统计|Gateway Analysis</span>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" ng-if="'customer_analysis'|withModule">
+                    <a ui-sref="customers_analysis_manage" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-bar-chart"></i> <span>消费者统计|Customer Analysis</span>
+                    </a>
+                </li>
+
+                <li ui-sref-active="active" ng-if="'partner_analysis'|withModule">
+                    <a ui-sref="partners_analysis" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-line-chart"></i> <span>商户数统计|Partners Analysis</span>
+                    </a>
+                </li>
+
+                <!--<li ui-sref-active="active" ng-if="'1011110'|withRole">-->
+                <!--<a ui-sref="marketinganalysis">-->
+                <!--<i class="fa fa-pie-chart"></i> <span>营销数据</span>-->
+                <!--</a>-->
+                <!--</li>-->
+                <li ui-sref-active="active" ng-if="('org_sale'|withModule)&&(currentUser.org_id==null||currentUser.org_id==1)">
+                    <a ui-sref="organlasis" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-hand-peace-o"></i> <span>合伙人销售量|City Partner Sale</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'bdsale'|withModule">
+                    <a ui-sref="bdanalysis" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-hand-peace-o"></i> <span>BD销售量|BD Sale</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="('bdprize'|withModule)&&(currentUser.org_id==null||currentUser.org_id==1)">
+                    <a ui-sref="bd_prizes" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-usd"></i> <span>BD提成|BD Commissions</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="('orgcommission'|withModule)">
+                    <a ui-sref="orgcommission" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-users"></i> <span>合伙人提成|City Partner Commissions</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'clientrate'|withModule">
+                    <a ui-sref="client_rates" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-shopping-cart"></i> <span>商户活跃度统计|Partner Active Rate</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'monitor'|withModule">
+                    <a ui-sref="monitor" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-tv"></i> <span>交易监控|Trade Monitor</span>
+                    </a>
+                </li>
+                <!--<li ui-sref-active="active" ng-if="'partners'|withModule">-->
+                    <!--<a ui-sref="client_unregister" ui-sref-opts="{reload:true}">-->
+                        <!--<i class="fa fa-tv"></i> <span>申请未注册|Unregister Client</span>-->
+                    <!--</a>-->
+                <!--</li>-->
+
+
+                <li class="header nav-header" ng-if="'0100001'|withRole">基础设置|Basic Settings</li>
+                <li ui-sref-active="active" ng-if="'org'|withModule">
+                    <a ui-sref="organizations" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-users"></i> <span>组织管理|Organizations</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'device'|withModule">
+                    <a ui-sref="device" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-users"></i> <span>设备管理|Devices</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'manager_accounts'|withModule">
+                    <a ui-sref="managers" ui-sref-opts="{reload:true}">
+                        <i class="fa fa-key"></i> <span>账号管理|Accounts</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'dev'|withModule">
+                    <a ui-sref="devtools">
+                        <i class="fa fa-cog"></i> <span>开发工具|DevTools</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'notice'|withModule">
+                    <a ui-sref="notice">
+                        <i class="fa fa-bell"></i> <span>通知群发|Notifications</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'log'|withModule">
+                    <a ui-sref="logview">
+                        <i class="fa fa-file-text-o"></i> <span>系统日志|System Logs</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'cms'|withModule">
+                    <a ui-sref="cms">
+                        <i class="fa fa-file-text-o"></i> <span>网站管理|Site Manage</span>
+                    </a>
+                </li>
+                <li ui-sref-active="active" ng-if="'sysconfig'|withModule">
+                    <a ui-sref="sysconfig">
+                        <i class="fa fa-cog"></i> <span>系统参数设定|Settings</span>
+                    </a>
+                </li>
+            </ul>
+
+        </section>
+        <!-- /.sidebar -->
+    </aside>
+    <!--END:左边栏-->
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper autoheight" ui-view=""></div>
+    <!-- /.content-wrapper -->
+
+    <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+            <b>Easy Business，Easy Pay</b>
+        </div>
+        <strong>Copyright © 2015-2016 <a href="http://www.royalpay.com.au">RoyalPay</a>.</strong> All rights
+        reserved.
+    </footer>
+
+</div>
+<!-- ./wrapper -->
+</body>
+</html>

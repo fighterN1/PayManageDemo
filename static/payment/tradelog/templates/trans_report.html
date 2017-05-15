@@ -1,0 +1,809 @@
+<style>
+    .tr_refund {
+        color: red;
+    }
+
+    .tr_clearing {
+        color: green;
+    }
+</style>
+<section class="content-header">
+    <h1>AusTrac Report</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-comments-o"></i> Payment
+        </li>
+        <li class="active">AusTrac Report</li>
+    </ol>
+</section>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box-solid">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group col-xs-12">
+                                        <label class="control-label col-xs-4 col-sm-2">Date Range</label>
+                                        <div class="col-sm-10 col-xs-8">
+                                            <div class="form-control-static form-inline">
+                                                <div style="display: inline-block">
+                                                    <input class="form-control" id="date-from-input"
+                                                           ng-model="params.datefrom"
+                                                           uib-datepicker-popup size="10" placeholder="From"
+                                                           is-open="dateBegin.open" ng-click="dateBegin.open=true"
+                                                           datepicker-options="{maxDate:params.dateto||today}">
+                                                </div>
+                                                ~
+                                                <div style="display: inline-block">
+                                                    <input class="form-control" id="date-to-input"
+                                                           ng-model="params.dateto"
+                                                           uib-datepicker-popup size="10" placeholder="To"
+                                                           is-open="dateTo.open" ng-click="dateTo.open=true"
+                                                           datepicker-options="{minDate:params.datefrom,maxDate:today}">
+                                                </div>
+
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseToday()">Today</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseYesterday()">Yesterday</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseLast7Days()">Last 7 Days</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="thisMonth()">This Month</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="lastMonth()">Last Month</a>
+                                                </div>
+                                                <!--<div class="btn-group">-->
+                                                    <!--<a role="button" class="btn btn-default btn-sm"-->
+                                                       <!--ng-click="thisYear()">This-->
+                                                        <!--Year</a>-->
+                                                <!--</div>-->
+                                                <div class="btn-group">
+                                                    <a class="btn btn-success" role="button" target="_blank"
+                                                       ng-href="{{export()}}">Export</a>
+                                                    <span class="btn" style="font-size: smaller;color: grey">（时间区间不能超过31天)</span>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+
+
+                                    <!--<a ng-if="pagination.totalCount>0" class="btn btn-success" style="float: right"-->
+                                    <!--target="_blank" ng-href="{{export()}}">Export</a>-->
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Report Config Information
+                            <!--<a role="button" style="font-size: smaller;padding-left: 20px" class="pull-right" ng-if="('11'|withRole)" ng-click="editConfig()">-->
+                                <!--<i class="fa fa-edit"></i> Edit-->
+                            <!--</a>-->
+                        </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Ordering customer</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.h" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">If known by any other name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.i" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Date of birth (if an individual)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.j" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Order customer contact details</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.k" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.l" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.m" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.n" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.o" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postal address</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.p" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.q" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.r" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.s" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.t" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Phone</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.u" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Email</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.v" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Order customer business details</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Occupation, business or principal
+                                            activity</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.w" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">ABN, ACN or ARBN</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.x" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Customer number (allocated by
+                                            remitter)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.y" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Account number</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.z" type="text" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business structure (if not an
+                                            individual)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.aa" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Person/organisation accepting the transfer instruction from the
+                                ordering customer
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ax" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">If known by any other name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ay" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Date of birth (if an individual)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.az" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post
+                                            box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ba" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bb" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bc" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bd" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.be" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postal address</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bf" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bg" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bh" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bi" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bj" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Phone</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bk" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Email</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bl" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Occupation, business or principal
+                                            activity</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bm" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business structure (if not an
+                                            individual)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bn" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Is this person/organisation accepting the
+                                            money or property?</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bo" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Is this person/organisation sending the
+                                            transfer instruction?</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bp" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Person/organisation accepting the money or property from the
+                                ordering customer (if different)
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bq" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post
+                                            box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.br" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bs" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bt" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bu" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bv" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Person/organisation sending the transfer instruction (if
+                                different)
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bw" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">If known by any other name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bx" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Date of birth (if an individual)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.by" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post
+                                            box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.bz" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ca" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cb" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cc" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cd" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postal address</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ce" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cf" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cg" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ch" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Country</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ci" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Phone</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cj" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Email</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ck" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Occupation, business or principal
+                                            activity</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cl" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">ABN, ACN or ARBN</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cm" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business structure (if not an
+                                            individual)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cn" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Person/organisation receiving the transfer instruction</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.co" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post
+                                            box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cp" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cq" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cr" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cs" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Is this person/organisation distributing
+                                            money or property?</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.ct" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Is there a separate retail outlet/business
+                                            location at which the money or property is being distributed?</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cu" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Person/organisation distributing money or property (if
+                                different)
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full Name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cv" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post
+                                            box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cw" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cx" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cy" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.cz" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Retail outlet/business location where money or property is being
+                                distributed (if different)
+                            </div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Identification number of the retail
+                                            outlet/business location</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.da" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.db" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Business/residential address (not a post
+                                            box address)</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.dc" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">City/town/suburb</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.dd" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">State</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.de" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Postcode</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.df" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Reason</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Reason for the transfer</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.dg" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Person completing this report</div>
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Full name</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.dh" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Job title</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.di" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Phone</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.dj" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-2">Email</label>
+                                        <div class="col-sm-8">
+                                            <input class="form-control" ng-model="config.dk" type="text"
+                                                   maxlength="100">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="btn-group margin-bottom margin-top"  ng-if="('11'|withRole)">
+                        <button class="btn btn-success" type="button" ng-click="editConfig()">Save
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

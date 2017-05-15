@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="apple-touch-icon" sizes="57x57" href="ico\apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="ico\apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="ico\apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="ico\apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="ico\apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="ico\apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="ico\apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="ico\apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="ico\apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="ico\android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="ico\favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="ico\favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16"_conf href="ico\favicon-16x16.png">
+    <link rel="manifest" href="ico\manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <title>RoyalPay | Sign in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link href="static\lib\bootstrap\css\bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="static\lib\font-awesome-4.6.3\css\font-awesome.min.css" rel="stylesheet">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="static\lib\dist\css\AdminLTE.min.css">
+
+    <link rel="stylesheet" href="static\css\main.css">
+
+
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition login-page login-page-bg">
+<div tabindex="-1" role="dialog" class="modal fade ng-isolate-scope in" style="z-index: 1050; display: none;" id="qrmodal">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" uib-modal-transclude="">
+            <div style="width: 100%;padding: 10px;" class="ng-scope">
+                Use WeChat Scan<br>
+                <img style="width: 100%" id="qrimg">
+            </div>
+        </div>
+    </div>
+</div>
+<div tabindex="-100" role="dialog" class="modal fade ng-isolate-scope in" style="z-index: 1055; display: none;" id="findPassword">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content" uib-modal-transclude="">
+            <div style="width: 100%;padding: 10px;" class="ng-scope">
+                <p class="login-box-msg">Reset Password</p>
+                <form action="" method="post">
+                    <div class="form-group has-feedback">
+                        <input type="text" id="partner_code" class="form-control" placeholder="Partner Code">
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <input type="text" name="verifyCode" class="form-control" style="width: 70%;display: inline" id="email—verifyCode" placeholder="Verification Code">
+                            <img style="width:30%;display:inline;height: 34px;float: right" id="email-kaptcha" src="/global/userstatus/captcha-login" title="点击更换">
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="checkbox icheck">
+                                <label class="" style="font-size: smaller">
+                                    Please enter your partner code
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- /.col -->
+                        <div class="col-xs-6">
+                            <button type="button" id="submitEmail-btn" class="btn btn-primary btn-flat col-xs-6">
+                                Submit
+                            </button>
+                            <button type="button" id="cancel-btn" class="btn btn-default btn-flat col-xs-6">Cancel
+                            </button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="login-box login-box-right divloginbox">
+
+    <!-- /.login-logo -->
+    <div class="login-box-body login-box-bg">
+
+        <p style="text-align: center;"><img src="static\images\dh_logo.png" style="width: 70%"></p>
+
+        <p style="text-align: center;font-size:20px;">Easy Business，Easy Pay</p>
+
+
+        <form action="" method="post">
+            <div class="form-group has-feedback">
+                <input type="text" id="loginid-input" class="form-control" placeholder="Login ID">
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <input type="password" id="pwd-input" class="form-control" placeholder="Password">
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <!--<span style="padding-left: 70%;font-size: smaller" id="forgetPassword">Forgot Password</span>-->
+            <!--<br/>-->
+            <div class="row">
+                <div class="form-group col-xs-12">
+                    <input type="text" name="verifyCode" class="form-control" style="width: 70%;display: inline" id="verifyCode" placeholder="Verification Code">
+                    <img style="width:30%;display:inline;height: 34px;float: right" id="kaptcha" src="/global/userstatus/captcha-login" title="点击更换">
+                </div>
+                <!-- /.col -->
+                <div class="col-xs-12 margin-bottom">
+                    <button type="button" id="login-btn" class="btn btn-success btn-block btn-flat">Sign In</button>
+                </div>
+                <!--<div class="col-xs-12 margin-bottom">-->
+                <!--<button type="button" id="wechat-btn" class="btn btn-success btn-block btn-flat">-->
+                <!--<i class="fa fa-wechat"></i> WeChat Sign In-->
+                <!--</button>-->
+                <!--</div>-->
+                <!--<div class="col-xs-12">-->
+                <!--<button type="button" id="forgetPassword-btn" class="btn btn-info btn-block btn-flat">-->
+                <!--<i class="fa fa-rss"></i> Forget Password-->
+                <!--</button>-->
+                <!--</div>-->
+
+                <!-- /.col -->
+            </div>
+            <a href="#" id="forgetPassword-btn">I forgot my password</a>
+        </form>
+        <!--    /* border-radius: 0; */
+            box-shadow: none;
+            border-color: #d2d6de;
+            height: 34px;
+            padding: 6px 12px;
+            font-size: 14px;
+            line-height: 1.42857143;
+            color: #555;
+            /* background-color: #fff; */
+            /* background-image: none; */
+            border: 1px solid #ccc;-->
+
+    </div>
+    <!-- /.login-box-body -->
+</div>
+<!-- /.login-box -->
+
+<!-- jQuery 2.1.4 -->
+<script src="static\lib\jquery\jquery-2.1.4.min.js"></script>
+<!-- Bootstrap 3.3.5 -->
+<script src="static\lib\bootstrap\js\bootstrap.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) {
+                return unescape(r[2]);
+            } else {
+                return null; //返回参数值
+            }
+        }
+
+        $('input').keypress(function (evt) {
+            if (evt.keyCode == 13) {
+                $('#login-btn').click();
+            }
+        });
+        $('#login-btn').click(function () {
+            var loginid = $('#loginid-input').val();
+            if (loginid == null || loginid.length == 0) {
+                alert('请填写账号');
+                return;
+            }
+            var pwd = $('#pwd-input').val();
+            if (pwd == null || pwd.length == 0) {
+                alert('请填写密码');
+                return;
+            }
+            var verifyCode = $('#verifyCode').val();
+            if (verifyCode == null || verifyCode.length == 0) {
+                alert('请填写验证码');
+                return;
+            }
+            $.ajax({
+                url: '/global/userstatus/partner_signin',
+                method: 'post',
+                data: JSON.stringify({loginId: loginid, password: pwd, verifyCode: verifyCode}),
+                contentType: 'application/json',
+                dataType: 'text',
+                success: function () {
+                    var from = getUrlParam("f");
+                    location.href = from ? decodeURIComponent(from) : 'index.html'
+                },
+                error: function (jqXHR) {
+                    alert(JSON.parse(jqXHR.responseText).message);
+                    $('#kaptcha').attr("src", "/global/userstatus/captcha-login?" + Math.floor(Math.random() * 100));
+                }
+            })
+
+
+        });
+        $('#kaptcha').click(function () {
+            $(this).attr("src", "/global/userstatus/captcha-login?" + Math.floor(Math.random() * 100));
+        });
+        $('#email-kaptcha').click(function () {
+            $(this).attr("src", "/global/userstatus/captcha-login?" + Math.floor(Math.random() * 100));
+        });
+        $('#wechat-btn').click(function () {
+            var ua = navigator.userAgent.toLowerCase();
+            if (ua.indexOf('micromessenger') >= 0) {
+                location.href = '/global/userstatus/partner_signin_wechat'
+            } else {
+                $.ajax({
+                    url: '/global/userstatus/partner_signin_wechat_qrcode',
+                    method: 'get',
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#qrmodal').find('img#qrimg').attr('src', data.code_img);
+                        $('#qrmodal').show();
+                        setTimeout(function () {
+                            checkQRStatus(data.code_id)
+                        }, 2000);
+                    },
+                    error: function (jqXHR) {
+                        alert(jqXHR.responseJSON.message);
+                    }
+                })
+            }
+        });
+        $('#qrmodal').click(function () {
+            $(this).hide()
+        });
+        function checkQRStatus(codeId) {
+            $.ajax({
+                url: '/global/userstatus/partner_signin_wechat_qrcode/' + codeId + '/check',
+                method: 'get',
+                success: function () {
+                    location.href = '/index.html'
+                },
+                error: function () {
+                    setTimeout(function () {
+                        checkQRStatus(codeId)
+                    }, 2000)
+                }
+            })
+        }
+
+        $('#forgetPassword-btn').click(function () {
+            // $('#findPassword').show();
+
+            location.href = 'forget_password.html'
+        });
+        $('#cancel-btn').click(function () {
+            $('#findPassword').hide();
+        });
+        $('#submitEmail-btn').click(function () {
+            var partner_code = $('#partner_code').val();
+            if (partner_code == null || partner_code.length == 0) {
+                alert('请填入商户编码');
+                return;
+            }
+            var verifyCode = $('#email—verifyCode').val();
+            if (verifyCode == null || verifyCode.length == 0) {
+                alert('请填写验证码');
+                return;
+            }
+            $.ajax({
+                url: '/global/userstatus/partner_forgetpassword',
+                method: 'post',
+                data: JSON.stringify({partner_code: partner_code, verifyCode: verifyCode}),
+                contentType: 'application/json',
+                dataType: 'text',
+                success: function () {
+                    alert("Reset password email has send your");
+                    $('#findPassword').hide();
+                },
+                error: function (jqXHR) {
+                    alert(JSON.parse(jqXHR.responseText).message);
+                    $('#email-kaptcha').attr("src", "/global/userstatus/captcha-login?" + Math.floor(Math.random() * 100));
+                }
+            })
+        })
+    })
+</script>
+
+</body>
+</html>

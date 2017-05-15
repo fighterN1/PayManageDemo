@@ -1,0 +1,42 @@
+<section class="content-header">
+    <h1>City Partner Commissions</h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-users"></i> Analysis</li>
+        <li class="active">City Partner Commissions</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box box-default">
+        <div class="box-body">
+            <div class="form-inline">
+                <div class="form-group">
+                    <input type="text" class="form-control" uib-datepicker-popup="yyyy-MM" ng-model="generate.month"
+                           is-open="ctrl.genmonth" datepicker-options="{minMode: 'month'}"
+                           ng-click="ctrl.genmonth=true" placeholder="Select Month"/>
+                </div>
+                <button class="btn btn-primary" ng-click="generateOrgCommission()" ng-disabled="!generate.month">
+                    Generate
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="box box-success">
+        <div class="box-header">
+            <input type="text" class="hidden" uib-datepicker-popup="yyyy" ng-model="params.year" is-open="ctrl.viewyear"
+                   datepicker-options="{minMode: 'year'}" ng-change="loadAvailableMonths()"
+                   placeholder="Select Year">
+            <span ng-bind="params.year.getFullYear()" ng-click="ctrl.viewyear=true"></span>
+        </div>
+        <div class="box box-body">
+            <div class="row">
+                <div class="col-xs-3" ng-repeat="mon in months">
+                    <a class="text-success" role="button" ng-click="gotoMonth(mon)" ng-if="hasReport(mon)">
+                        <h2 ng-bind="mon"></h2>
+                    </a>
+                    <h2 class="text-gray" ng-bind="mon" ng-if="!hasReport(mon)"></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div ui-view></div>
+</section>

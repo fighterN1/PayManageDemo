@@ -1,0 +1,1 @@
+{"pagination":{"endRow":2,"firstPage":true,"hasNextPage":false,"hasPrePage":false,"lastPage":true,"limit":20,"nextPage":1,"offset":0,"page":1,"prePage":1,"slider":[1],"startRow":1,"totalCount":2,"totalPages":1},"data":[{"income":4975.8400,"total":5038.8300,"fee":50.3200,"short_name":"HT"},{"income":43.2500,"total":43.9100,"fee":0.2800,"short_name":"Pineapple Tech"}]}

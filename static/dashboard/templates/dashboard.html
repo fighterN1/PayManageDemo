@@ -1,0 +1,160 @@
+<div ui-view>
+<section class="content-header">
+    <h1>
+        Dashboard
+    </h1>
+    <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row margin-bottom">
+        <div class="col-xs-12">
+            <div class="btn-group pull-right">
+                <button class="btn btn-default" ng-repeat="scale in scales"
+                        ng-class="{'active':currentScale.key==scale.key}"
+                        ng-bind="scale.label" ng-click="switchScale(scale)" type="button"></button>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <img ng-if="max_amount && analysis.trade_amount>=max_amount" style="position: absolute;right: 0px;top: -10px" src="/static/images/new_record.png">
+                <span class="info-box-icon bg-aqua"><i class="ion ion-social-usd"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">交易额</span>
+                    <span class="info-box-number" ng-bind="analysis.trade_amount|currency:'AUD '"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-red"><i class="ion ion-person-add"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">开通商户数</span>
+                    <span class="info-box-number" ng-bind="analysis.new_partners"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <div class="info-box">
+                <span class="info-box-icon bg-green"><i class="ion ion-ios-people"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">总商户数</span>
+                    <span class="info-box-number" ng-bind="analysis.total_partners"></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 col-xs-12">
+            <img ng-if="max_transaction_partners && analysis.traded_partners>=max_transaction_partners" style="position: absolute;right: 0px;top: -10px" src="/static/images/new_record.png">
+            <div class="info-box">
+                <span class="info-box-icon bg-yellow"><i class="ion ion-android-done"></i></span>
+                <div class="info-box-content">
+                    <span class="info-box-text">产生交易商户数</span>
+                    <span class="info-box-number" ng-bind="analysis.traded_partners"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header with-border">交易分布
+                    <a style="float: right" role="button" ui-sref=".gateway">+ more</a></div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <div class="col-sm-12 col-xs-6">
+                                <p class="text-center">交易类型分布-交易量</p>
+                                <div class="chart" style="height: 250px" echarts="analysis.trade_type_chart"
+                                     ng-class="{nodata:analysis.trade_type_chart.nodata}"></div>
+                            </div>
+                            <div class="col-sm-12 col-xs-6">
+                                <p class="text-center">交易类型分布-商户数量</p>
+                                <div class="chart" style="height: 250px" echarts="analysis.partners_type_chart"
+                                     ng-class="{nodata:analysis.partners_type_chart.nodata}"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-xs-12">
+                            <p class="text-center">交易额前十商户</p>
+                            <div class="chart" style="height: 500px;" echarts="analysis.top_partners"
+                                 ng-class="{nodata:analysis.top_partners.nodata}"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <div class="row">
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <p class="description-header text-bold">最大交易额订单</p>
+                                <p class="description-text" ng-if="!analysis.top_amount_order">暂无</p>
+                                <p class="description-header text-red"
+                                   ng-bind="analysis.top_amount_order.aud_fee|currency:'AUD '"
+                                   ng-if="analysis.top_amount_order"></p>
+                                <p class="description-text" ng-bind="analysis.top_amount_order.short_name"
+                                   ng-if="analysis.top_amount_order"></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+                                <img ng-if="max_orders && analysis.trade_count>=max_orders" style="position: absolute;right: 20%;" src="/static/images/new_record.png">
+                                <p class="description-header text-bold">交易笔数</p>
+                                <p class="description-text" ng-if="!analysis.trade_count">暂无</p>
+                                <p class="description-header text-red"
+                                   ng-bind="analysis.trade_count"
+                                   ng-if="analysis.trade_count"></p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right">
+
+                                <p class="description-header text-bold">支付人数</p>
+                                <!--<p class="description-header text-red"-->
+                                <!--ng-bind="analysis.top_amount_order.aud_fee|currency:'AUD '" ng-if="analysis.top_amount_order"></p>-->
+                                <!--<p class="description-text" ng-bind="analysis.top_amount_order.short_name" ng-if="analysis.top_amount_order"></p>-->
+                                <p class="description-header text-green">
+                                    <label>{{analysis.total_customers}}</label> /
+                                    <label>{{analysis.new_customers}}</label> /
+                                    <label>{{analysis.old_customers}}</label>
+                                </p>
+                                <p class="description-text">总消费人数/新客户/老客户</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-3 col-xs-6">
+                            <div class="description-block border-right" ng-click="displayExchangeRateHistory()" role="button" title="点击显示汇率历史记录">
+                                <p class="description-header text-bold">最新汇率</p>
+                                <p class="description-header text-green">
+                                    <label ng-bind="analysis.exchange_rate"></label>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-success">
+                <div class="box-header with-border">交易时间分布</div>
+                <div class="box-body">
+                    <div class="chart" echarts="analysis.trade_time" style="height: 450px"
+                         ng-class="{nodata:analysis.trade_time.nodata}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-success">
+                <div class="box-header with-border">交易额趋势</div>
+                <div class="box-body">
+                    <div class="chart" echarts="analysis.trade_line" style="height: 300px"
+                         ng-class="{nodata:analysis.trade_line.nodata}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</div>

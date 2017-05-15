@@ -1,0 +1,12 @@
+<div class="modal-header">
+    <h4>待办事项</h4>
+</div>
+<div class="modal-body">
+    <p  ng-repeat="notice in notices">
+        <span ng-bind="notice.text"></span>
+        <a class="pull-right" ng-href="{{notice.url}}" ng-click="$dismiss()">Detail>></a>
+    </p>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-danger" ng-click="$dismiss()">Close</button>
+</div>

@@ -1,0 +1,218 @@
+<style>
+    .cen table {
+        text-align: center;
+    }
+
+    .cen table th {
+        text-align: center;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Gateway Analysis
+    </h1>
+    <ol class="breadcrumb">
+        <li class="active"><i class="fa fa-dashboard"></i> Dashboard</li>
+        <li class="active">Gateway</li>
+    </ol>
+</section>
+<section class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box box-success">
+                <div class="box-header">
+                    <div class="form-horizontal">
+                        <div class="form-group col-xs-12">
+                            <label class="control-label col-xs-4 col-sm-2">Date Range</label>
+                            <div class="col-sm-10">
+                                <div class="form-control-static form-inline">
+                                    <div style="display: inline-block">
+                                        <input class="form-control" id="date-from-input" ng-model="params.begin"
+                                               uib-datepicker-popup size="10" placeholder="From"
+                                               is-open="dateBegin.open" ng-click="dateBegin.open=true"
+                                               datepicker-options="{maxDate:params.end||today}">
+                                    </div>
+                                    ~
+                                    <div style="display: inline-block">
+                                        <input class="form-control" id="date-to-input" ng-model="params.end"
+                                               uib-datepicker-popup size="10" placeholder="To"
+                                               is-open="dateTo.open" ng-click="dateTo.open=true"
+                                               datepicker-options="{minDate:params.begin,maxDate:today}">
+                                    </div>
+
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-default btn-sm"
+                                           ng-click="chooseToday()">Today</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-default btn-sm"
+                                           ng-click="chooseYesterday()">Yesterday</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-default btn-sm"
+                                           ng-click="chooseLast7Days()">Last 7 Days</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-default btn-sm" ng-click="thisMonth()">This
+                                            Month</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-default btn-sm" ng-click="lastMonth()">Last
+                                            Month</a>
+                                    </div>
+                                    <div class="btn-group">
+                                        <a role="button" class="btn btn-default btn-sm" ng-click="thisYear()">This
+                                            Year</a>
+                                    </div>
+                                    <button class="btn btn-success" type="button" ng-click="loadTradePartnersInTypes()">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row cen">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header with-border">交易分布</div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-4 col-xs-12">
+                            <!--<p class="text-center">交易类型分布</p>-->
+                            <!--<div class="chart" style="height: 600px" echarts="partners_type_chart"-->
+                            <!--chart-setter="gatewayEchart($chart)"-->
+                            <!--ng-class="{nodata:partners_type_chart.nodata}"></div>-->
+                            <div class="col-sm-12 col -xs-8">
+                                <p class="text-center">各交易类型商家数量分布（家）</p>
+                                <div class="chart" style="height: 400px" echarts="partners_type_chart"
+                                     chart-setter="gatewayEchart($chart)"
+                                     ng-class="{nodata:partners_type_chart.nodata}"></div>
+                            </div>
+                            <div class="col-sm-12 col -xs-4">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Gateway</th>
+                                        <th>Partners</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="gateway in gatewayPartners">
+                                        <td ng-bind="gateway.gateway_label"></td>
+                                        <td ng-bind="gateway.partner_count"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-sm-8 col-xs-12">
+                            <p class="text-center">{{chooseGateway}} 交易方式商户排名</p>
+                            <div class="col-sm-6 col-xs-12" style="padding-right: 0">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Ranking</th>
+                                        <th>Partner</th>
+                                        <th>AUD Amount</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="partner in partners1">
+                                        <td style="text-align: center;font-style: italic;font-size: larger"
+                                            ng-bind="$index+1+'.'"></td>
+                                        <td ng-bind="partner.short_name"></td>
+                                        <td ng-bind="partner.total"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="col-sm-6 col-xs-12" style="padding-left: 0">
+                                <table class="table table-bordered table-hover table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Ranking</th>
+                                        <th>Partner</th>
+                                        <th>AUD Amount</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr ng-repeat="partner in partners2">
+                                        <td style="text-align: center;font-style: italic;font-size: larger"
+                                            ng-bind="$index+16+'.'"></td>
+                                        <td ng-bind="partner.short_name"></td>
+                                        <td ng-bind="partner.total"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row cen">
+        <div class="col-sm-12">
+            <div class="box">
+                <div class="box-header with-border">总交易排行</div>
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-sm-12 col-xs-12">
+                            <!--<p class="text-center">{{}}商户销售统计</p>-->
+                            <!--<div class="chart" style="height: 400px" echarts="bdSalePartnersChart"-->
+                            <!--ng-class="{nodata:bdSalePartnersChart.nodata}"></div>-->
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th style="width: 10%">Ranking</th>
+                                    <th style="width: 30%">Partner</th>
+                                    <th>AUD Amount</th>
+                                    <th style="width: 10%">Ranking</th>
+                                    <th style="width: 30%">Partner</th>
+                                    <th> AUD Amount</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="sale in partnerSalesList">
+                                    <td style="text-align: center;font-style: italic;font-size: larger"
+                                        ng-bind="$index*2+1+'.'"></td>
+                                    <td>
+                                        <a class="text-primary" role="button" title="Detail"
+                                           ui-sref="partners.detail({clientMoniker:sale[0].client_moniker})">
+                                            {{sale[0].short_name}}
+                                        </a>
+                                    </td>
+                                    <td ng-bind="sale[0].aud_fee"></td>
+                                    <td style="text-align: center;font-style: italic;font-size: larger"
+                                        ng-bind="$index * 2 + 2 +'.'"></td>
+                                    <td>
+                                        <a class="text-primary" role="button" title="Detail"
+                                           ui-sref="partners.detail({clientMoniker:sale[1].client_moniker})">
+                                            {{sale[1].short_name}}
+                                        </a>
+                                    </td>
+                                    <td ng-bind="sale[1].aud_fee"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="box-footer">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

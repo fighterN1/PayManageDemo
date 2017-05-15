@@ -1,0 +1,118 @@
+<style>
+    .cen table {
+        text-align: center;
+    }
+
+    .cen table th {
+        text-align: center;
+    }
+</style>
+<section class="content-header">
+    <h1>Transaction Data</h1>
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-list-alt"></i> Analysis
+        </li>
+        <li class="active">Transaction Data</li>
+    </ol>
+</section>
+<div class="content">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="box-solid">
+                <div class="box box-success">
+                    <div class="box-header">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-horizontal">
+                                    <div class="form-group col-xs-12">
+                                        <label class="control-label col-xs-4 col-sm-2">Date Range</label>
+                                        <div class="col-sm-10">
+                                            <div class="form-control-static form-inline">
+                                                <div style="display: inline-block">
+                                                    <input class="form-control" id="date-from-input"
+                                                           ng-model="params.begin"
+                                                           uib-datepicker-popup size="10" placeholder="From"
+                                                           is-open="dateBegin.open" ng-click="dateBegin.open=true"
+                                                           datepicker-options="{maxDate:params.end||today}">
+                                                </div>
+                                                ~
+                                                <div style="display: inline-block">
+                                                    <input class="form-control" id="date-to-input" ng-model="params.end"
+                                                           uib-datepicker-popup size="10" placeholder="To"
+                                                           is-open="dateTo.open" ng-click="dateTo.open=true"
+                                                           datepicker-options="{minDate:params.begin,maxDate:today}">
+                                                </div>
+
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseToday()">Today</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseYesterday()">Yesterday</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="chooseLast7Days()">Last 7 Days</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="thisMonth()">This Month</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="lastMonth()">Last Month</a>
+                                                </div>
+                                                <div class="btn-group">
+                                                    <a role="button" class="btn btn-default btn-sm"
+                                                       ng-click="thisYear()">This Year</a>
+                                                </div>
+                                                <button class="btn btn-success" type="button" ng-click="doAnalysis()">
+                                                    <i class="fa fa-search"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <!--<div class="box-header">-->
+                        <!--<h3 class="box-title">Analysis</h3>-->
+                    <!--</div>-->
+                    <div class="box-body">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="box box-success">
+                                    <div class="box-header with-border">交易笔数变化趋势</div>
+                                    <div class="box-body">
+                                        <div class="chart" echarts="ordersHistory" style="height: 300px"
+                                             ng-class="{nodata:ordersHistory.nodata}"></div>
+                                    </div>
+                                </div>
+                                <div class="box box-success">
+                                    <div class="box-header with-border">交易量变化趋势</div>
+                                    <div class="box-body">
+                                        <div class="chart" echarts="totalAmountHistory" style="height: 300px"
+                                             ng-class="{nodata:totalAmountHistory.nodata}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="box box-success">
+                                    <div class="box-header with-border">交易时间分布</div>
+                                    <div class="box-body">
+                                        <div class="chart" echarts="trans_hours_chart" style="height: 450px"
+                                             ng-class="{nodata:trans_hours_chart.nodata}"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

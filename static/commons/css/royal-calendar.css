@@ -1,0 +1,102 @@
+.rc-box {
+    width: 100%;
+    float: left;
+    position: relative;
+}
+
+.rc-box .rc-control-row {
+    width: 100%;
+    float: left;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.rc-box .rc-control-row .center-btn {
+    display: inline-block;
+}
+
+.rc-box .week {
+    width: 100%;
+    position: relative;
+    float: left;
+    border-bottom: 1px solid #CCCCCC;
+    border-left: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    margin-top: -1px;
+    display: flex;
+}
+
+.rc-box .week .day {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    float: left;
+    text-align: center;
+    position: relative;
+    height: 90px;
+    background: #fff;
+    color: #000;
+}
+
+.rc-box .week.week-label .day {
+    height: 30px;
+}
+
+.rc-box .week .day.weekend {
+    color: #ff7e6d;
+}
+
+.rc-box .week.month-mode .day {
+    cursor: pointer;
+}
+
+.rc-box .week .day:after {
+    content: " ";
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 1px;
+    bottom: 0;
+    border-right: 1px solid #CCCCCC;
+    color: #CCCCCC;
+    -webkit-transform-origin: 100% 0;
+    transform-origin: 100% 0;
+    -webkit-transform: scaleX(0.5);
+    transform: scaleX(0.5);
+}
+
+.rc-box .week .day.othermonth, .rc-box .week.month-mode .day:hover {
+    background: #efefef;
+    color: #444;
+}
+
+.rc-box .week .day .datelabel {
+    position: absolute;
+    right: 5px;
+    top: 0;
+    font-size: 18px;
+}
+
+.rc-box .week.week-label .day .datelabel {
+    right: 0;
+    width: 100%;
+    line-height: 30px;
+    font-weight: bold;
+}
+
+.rc-box .week .day .datecontent {
+    position: relative;
+    margin-top: 25px;
+    height: 65px;
+    width: 100%;
+    display: block;
+}
+
+.rc-box .week .day .datecontent .rc-full {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: block;
+    overflow: hidden;
+}
+
